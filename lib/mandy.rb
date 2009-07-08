@@ -1,0 +1,1 @@
+%w(tuple array_serializer mapper reducer dsl job test_runner).each {|file| require File.join(File.dirname(__FILE__), file) }
