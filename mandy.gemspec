@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
     bin/mandy-map
     bin/mandy-put
     bin/mandy-reduce
-    README.md
+    readme.md
     Rakefile
     lib/mandy.rb
     lib/array_serializer.rb
