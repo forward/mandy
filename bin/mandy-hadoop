@@ -12,7 +12,7 @@ config = ARGV[3]
 
 require absolute_path(file)
 
-jobconf = Mandy::Job.default.settings.map { |key, value| %(-jobconf #{key}="#{value}") }.join(' ')
+jobconf = Mandy::Job.jobs.first.settings.map { |key, value| %(-jobconf #{key}="#{value}") }.join(' ')
 
 command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar \
                 -additionalconfspec "#{config}" \

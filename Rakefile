@@ -9,3 +9,8 @@ Spec::Rake::SpecTask.new(:spec) do |t|
   t.spec_files = FileList['spec/lib/**/*_spec.rb']
   t.spec_opts = %w{-f s -c -L mtime}
 end
+
+task :gem do
+  `sudo gem build mandy.gemspec`
+  `sudo gem install mandy-*.gem`
+end

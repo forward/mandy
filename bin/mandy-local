@@ -1,11 +1,19 @@
 #!/usr/bin/env ruby
 
+require "fileutils"
+
 def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end
 
 file   = absolute_path(ARGV[0])
 input  = absolute_path(ARGV[1])
-output = absolute_path(ARGV[2])
+output_folder = FileUtils.mkdir_p(absolute_path(ARGV[2]))
+temp   = nil
+require file
 
-`cat #{input} | mandy-map #{file} | sort | mandy-reduce #{file} > #{output}`
+Mandy::Job.jobs.each_with_index do |job, i|
+  out = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
+  `cat #{input} | mandy-map #{file} "#{job.name}" | sort | mandy-reduce #{file} "#{job.name}" > #{out}`
+  input = out
+end

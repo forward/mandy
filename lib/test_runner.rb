@@ -1,6 +1,6 @@
 module Mandy
   class TestRunner
-    def initialize(job=Mandy::Job.default)
+    def initialize(job=Mandy::Job.jobs.first)
       @job = job
     end
     
