@@ -13,7 +13,7 @@ require file
 
 case mode
   when 'local'
-    `cat #{input} | bin/mandy map #{file} | sort | bin/mandy reduce #{file} >> #{output}`
+    `cat #{input} | bin/mandy map #{file} | sort | bin/mandy reduce #{file} > #{output}`
   when 'remote'
     `$HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/hadoop-streaming.jar \
                       -input "#{input}"  \
