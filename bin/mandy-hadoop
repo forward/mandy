@@ -7,22 +7,28 @@ end
 file   = ARGV[0]
 filename = File.basename(file)
 input  = ARGV[1]
-output = ARGV[2]
+output_folder = ARGV[2]
 config = ARGV[3]
 
 require absolute_path(file)
 
-jobconf = Mandy::Job.jobs.first.settings.map { |key, value| %(-jobconf #{key}="#{value}") }.join(' ')
+Mandy::Job.jobs.each_with_index do |job, i|
+  
+  jobconf = job.settings.map { |key, value| %(-jobconf #{key}="#{value}") }.join(' ')
+  
+  output = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
+  
+  command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar \
+                  -additionalconfspec "#{config}" \
+                  -input "#{input}"  \
+                  -mapper "mandy-map #{filename} '#{job.name}'"  \
+                  -reducer "mandy-reduce #{filename} '#{job.name}'"  \
+                  -file "#{file}" \
+                  -output "#{output}" \
+                  #{jobconf})
 
-command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar \
-                -additionalconfspec "#{config}" \
-                -input "#{input}"  \
-                -mapper "mandy-map #{filename}"  \
-                -reducer "mandy-reduce #{filename}"  \
-                -file "#{file}" \
-                -output "#{output}" \
-                #{jobconf})
+  `#{command}`
 
-`#{command}`
-
-# puts "#{command}"
+  # puts "#{command}"
+  input = output
+end

@@ -9,7 +9,6 @@ end
 file   = absolute_path(ARGV[0])
 input  = absolute_path(ARGV[1])
 output_folder = FileUtils.mkdir_p(absolute_path(ARGV[2]))
-temp   = nil
 require file
 
 Mandy::Job.jobs.each_with_index do |job, i|

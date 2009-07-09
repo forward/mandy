@@ -4,9 +4,6 @@ require "mandy"
 include Mandy::DSL
 
 job "Word Count" do
-
-  THRESHOLD = 1
-
   map do |key, value|
     words = {}
     value.split(' ').each do|word|
@@ -20,23 +17,22 @@ job "Word Count" do
 
   reduce do |key, values|
     total = values.inject(0) {|sum,count| sum+count.to_i }
-    emit(key, total) if key.any? && total > THRESHOLD
+    emit(key, total) if key.any?
   end
-
 end
 
 job "Histogram" do
+  RANGES = [0..5, 6..10, 11..20, 21..30, 31..40, 41..50, 51..100, 101..200, 201..300, 301..10_000]
+  
   map do |word, count|
-    ranges = [0..10, 11..20, 21..30, 31..40, 41..50, 51..100, 101..200, 201..300, 301..10_000]
-    range = ranges.find {|range| range.include?(count.to_i) }
-    emit("#{range.first}-#{range.last}", 1)
+    range = RANGES.find {|range| range.include?(count.to_i) }
+    emit("#{range.first.to_s.rjust(5,'0')}-#{range.last.to_s.rjust(5,'0')}", 1)
   end
   
   reduce do |range, counts|
     total = counts.inject(0) {|sum,count| sum+count.to_i }
-    emit(range, total)
+    emit(range, '|'*(total/10).ceil)
   end
 end
 
-job "Sort" do
-end
+job "Sort"
