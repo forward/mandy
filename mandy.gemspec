@@ -32,13 +32,16 @@ Gem::Specification.new do |s|
     readme.md
     Rakefile
     lib/mandy.rb
-    lib/array_serializer.rb
+    lib/support/tuple.rb
+    lib/support/array_serializer.rb
     lib/dsl.rb
     lib/job.rb
-    lib/mapper.rb
-    lib/reducer.rb
+    lib/mappers/base_mapper.rb
+    lib/mappers/pass_through_mapper.rb
+    lib/reducers/base_reducer.rb
+    lib/reducers/pass_through_reducer.rb
+    lib/reducers/sum_reducer.rb
     lib/test_runner.rb
-    lib/tuple.rb
   ]
   # = MANIFEST =
   

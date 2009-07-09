@@ -16,8 +16,8 @@ module Mandy
     def initialize(name, &blk)
       @name = name
       @settings = {}
-      @mapper_class = Mandy::Mapper
-      @reducer_class = Mandy::Reducer
+      @mapper_class = Mandy::Mappers::PassThroughMapper
+      @reducer_class = Mandy::Reducers::PassThroughReducer
       set('mapred.job.name', name)
       instance_eval(&blk) if blk
     end
@@ -26,12 +26,12 @@ module Mandy
       @settings[key.to_s] = value.to_s
     end
     
-    def map(&blk)
-      @mapper_class = Mandy::Mapper.compile(&blk)
+    def map(klass=nil, &blk)
+      @mapper_class = klass || Mandy::Mappers::Base.compile(&blk)
     end
     
-    def reduce(&blk)
-      @reducer_class = Mandy::Reducer.compile(&blk)
+    def reduce(klass=nil, &blk)
+      @reducer_class = klass || Mandy::Reducers::Base.compile(&blk)
     end
     
     def run_map(input=STDIN, output=STDOUT, &blk)

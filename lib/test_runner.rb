@@ -1,7 +1,7 @@
 module Mandy
   class TestRunner
-    def initialize(job=Mandy::Job.jobs.first)
-      @job = job
+    def initialize(job=Mandy::Job.jobs.first.name)
+      @job = Mandy::Job.find_by_name(job)
     end
     
     def map(input, output_stream=StringIO.new(''), &blk)

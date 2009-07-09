@@ -1,9 +1,9 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe Mandy::Mapper do
+describe Mandy::Mappers::PassThroughMapper do
   before(:each) do
     @input, @output = StringIO.new("key1\tvalue1\nkey2, value2"), StringIO.new
-    @mapper = Mandy::Mapper.new(@input, @output)
+    @mapper = Mandy::Mappers::PassThroughMapper.new(@input, @output)
   end
   
   it "calls .map(key, value) once for each line in the input" do
@@ -24,7 +24,7 @@ describe Mandy::Mapper do
   end
   
   it "allows compiling with a different map function" do
-    mapper = Mandy::Mapper.compile { |k,v| emit('a', 1) }
+    mapper = Mandy::Mappers::PassThroughMapper.compile { |k,v| emit('a', 1) }
     map = mapper.new(StringIO.new("k\tv"), StringIO.new(''))
     map.should_receive(:emit).with('a', 1)
     map.execute
