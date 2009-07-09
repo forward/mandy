@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 
+if ARGV.size==0
+  puts "USAGE: mandy-install user@server1.com [user@server2.com ...]"
+  exit
+end
+
 ARGV.each do |server|
   puts "Installing on #{server}..."
   system %(ssh #{server} "sudo gem install trafficbroker-mandy --source http://gems.github.com")

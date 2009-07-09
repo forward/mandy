@@ -1,6 +1,11 @@
 #!/usr/bin/env ruby
 
-config = ARGV[0]
+if ARGV.size==0
+  puts "USAGE: mandy-rm file_or_folder_on_hdfs cluster-config.xml"
+  exit
+end
+
 file = ARGV[1]
+config = ARGV[0]
 
 `$HADOOP_HOME/bin/hadoop fs -conf #{config} -rmr #{file}`

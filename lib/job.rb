@@ -26,6 +26,14 @@ module Mandy
       @settings[key.to_s] = value.to_s
     end
     
+    def map_tasks(count)
+      set('mapred.map.tasks', count)
+    end
+    
+    def reduce_tasks(count)
+      set('mapred.reduce.tasks', count)
+    end
+    
     def map(klass=nil, &blk)
       @mapper_class = klass || Mandy::Mappers::Base.compile(&blk)
     end

@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 
+if ARGV.size==0
+  puts "USAGE: mandy-map my_script.rb 'Job Name'"
+  exit
+end
+
 def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end

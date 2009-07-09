@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 
+if ARGV.size==0
+  puts "USAGE: mandy-local my_script.rb local_input_file local_output_folder"
+  exit
+end
+
 require "fileutils"
 
 def absolute_path(path)
@@ -13,6 +18,9 @@ require file
 
 Mandy::Job.jobs.each_with_index do |job, i|
   out = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
+  puts "Running #{job.name}..."
   `cat #{input} | mandy-map #{file} "#{job.name}" | sort | mandy-reduce #{file} "#{job.name}" > #{out}`
   input = out
 end
+
+puts "All Done! [#{input}]"

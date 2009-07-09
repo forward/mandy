@@ -4,6 +4,11 @@ def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end
 
+if ARGV.size==0
+  puts "USAGE: mandy-hadoop my_script.rb input_file_or_folder_on_hdfs output_folder_on_hdfs cluster-config.xml"
+  exit
+end
+
 file   = ARGV[0]
 filename = File.basename(file)
 input  = ARGV[1]
