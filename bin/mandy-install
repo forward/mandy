@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+ARGV.each do |server|
+  puts "Installing on #{server}..."
+  system %(ssh #{server} "sudo gem install trafficbroker-mandy --source http://gems.github.com")
+end

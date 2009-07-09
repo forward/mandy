@@ -22,7 +22,7 @@ job "Word Count" do
 end
 
 job "Histogram" do
-  RANGES = [0..5, 6..10, 11..20, 21..30, 31..40, 41..50, 51..100, 101..200, 201..300, 301..10_000]
+  RANGES = [0..1, 2..3, 4..5, 6..10, 11..20, 21..30, 31..40, 41..50, 51..100, 101..200, 201..300, 301..10_000]
   
   map do |word, count|
     range = RANGES.find {|range| range.include?(count.to_i) }
@@ -31,7 +31,7 @@ job "Histogram" do
   
   reduce do |range, counts|
     total = counts.inject(0) {|sum,count| sum+count.to_i }
-    emit(range, '|'*(total/10).ceil)
+    emit(range, '|'*(total/20).ceil)
   end
 end
 
