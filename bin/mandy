@@ -14,12 +14,12 @@ require file
 case mode
   when 'local'
     `cat #{input} | bin/mandy map #{file} | sort | bin/mandy reduce #{file} > #{output}`
-  when 'remote'
-    `$HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/hadoop-streaming.jar \
+  when 'hadoop'
+    `$HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-0.20.0-streaming.jar \
                       -input "#{input}"  \
                       -mapper "bin/mandy map #{file}"  \
-                      -reducer "bin/mandy map #{file}"  \
-                      -file "#{file}"
+                      -reducer "bin/mandy reduce #{file}"  \
+                      -file "#{file}" \
                       -output "#{output}"`
   when 'map'
     Mandy::Job.default.run_map
