@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+def absolute_path(path)
+  path =~ /^\// ? path : File.join(Dir.pwd, path)
+end
+
+file   = absolute_path(ARGV[0])
+input  = ARGV[1]
+output = ARGV[2]
+config = ARGV[3]
+
+require file
+
+`$HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar \
+                -additionalconfspec "#{config}" \
+                -input "#{input}"  \
+                -mapper "mandy-map #{file}"  \
+                -reducer "mandy-reduce #{file}"  \
+                -file "#{file}" \
+                -output "#{output}"`

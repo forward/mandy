@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+def absolute_path(path)
+  path =~ /^\// ? path : File.join(Dir.pwd, path)
+end
+
+source = absolute_path(ARGV[0])
+dest = ARGV[1]
+config = absolute_path(ARGV[2])
+
+`$HADOOP_HOME/bin/hadoop fs -conf #{config} -copyFromLocal #{source} #{dest}`

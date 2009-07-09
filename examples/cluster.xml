@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property>
+    <name>fs.default.name</name>
+    <value>hdfs://pair4:9000/</value>
+  </property>
+  <property>
+    <name>mapred.job.tracker</name>
+    <value>pair4:9001</value>
+  </property>
+  <property>
+    <name>hadoop.job.ugi</name>
+    <value>pair,supergroup</value>
+  </property>
+</configuration>

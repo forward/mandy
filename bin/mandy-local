@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+def absolute_path(path)
+  path =~ /^\// ? path : File.join(Dir.pwd, path)
+end
+
+file   = absolute_path(ARGV[0])
+input  = absolute_path(ARGV[1])
+output = absolute_path(ARGV[2])
+
+`cat #{input} | mandy-map #{file} | sort | mandy-reduce #{file} > #{output}`

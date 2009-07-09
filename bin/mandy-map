@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+def absolute_path(path)
+  path =~ /^\// ? path : File.join(Dir.pwd, path)
+end
+
+file   = absolute_path(ARGV[0])
+
+require file
+
+Mandy::Job.default.run_map
