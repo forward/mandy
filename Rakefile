@@ -12,5 +12,6 @@ end
 
 task :gem do
   `sudo gem build mandy.gemspec`
-  `sudo gem install mandy-*.gem`
+  `mkdir pkg; mv mandy-*.gem pkg/`
+  `sudo gem install pkg/mandy-*.gem`
 end
