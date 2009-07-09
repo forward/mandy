@@ -1,6 +1,9 @@
-require File.join(File.dirname(__FILE__), *%w[.. lib mandy])
+require "rubygems"
+require "mandy"
 
 include Mandy::DSL
+
+job_name "Word Count"
 
 THRESHOLD = 100
 

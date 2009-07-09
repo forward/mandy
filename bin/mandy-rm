@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+config = ARGV[0]
+file = ARGV[1]
+
+`$HADOOP_HOME/bin/hadoop fs -conf #{config} -rmr #{file}`

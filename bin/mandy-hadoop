@@ -4,17 +4,25 @@ def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end
 
-file   = absolute_path(ARGV[0])
+file   = ARGV[0]
+filename = File.basename(file)
 input  = ARGV[1]
 output = ARGV[2]
 config = ARGV[3]
 
-require file
+require absolute_path(file)
 
-`$HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar \
+jobconf = Mandy::Job.default.settings.map { |key, value| %(-jobconf #{key}="#{value}") }.join(' ')
+
+command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar \
                 -additionalconfspec "#{config}" \
                 -input "#{input}"  \
-                -mapper "mandy-map #{file}"  \
-                -reducer "mandy-reduce #{file}"  \
+                -mapper "mandy-map #{filename}"  \
+                -reducer "mandy-reduce #{filename}"  \
                 -file "#{file}" \
-                -output "#{output}"`
+                -output "#{output}" \
+                #{jobconf})
+
+`#{command}`
+
+# puts "#{command}"

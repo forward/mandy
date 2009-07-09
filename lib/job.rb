@@ -4,8 +4,11 @@ module Mandy
       attr_accessor :default
     end
     
+    attr_reader :settings
+    
     def initialize(name, &blk)
       @name = name
+      @settings = {}
       instance_eval(&blk) if blk
     end
     
