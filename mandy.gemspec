@@ -41,6 +41,8 @@ Gem::Specification.new do |s|
     lib/reducers/base_reducer.rb
     lib/reducers/pass_through_reducer.rb
     lib/reducers/sum_reducer.rb
+    lib/reducers/max_reducer.rb
+    lib/reducers/min_reducer.rb
     lib/test_runner.rb
   ]
   # = MANIFEST =

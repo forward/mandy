@@ -6,6 +6,8 @@
   reducers/base_reducer 
   reducers/pass_through_reducer 
   reducers/sum_reducer 
+  reducers/max_reducer 
+  reducers/min_reducer 
   dsl 
   job 
   test_runner
