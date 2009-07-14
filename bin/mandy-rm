@@ -5,7 +5,7 @@ if ARGV.size==0
   exit
 end
 
-file = ARGV[1]
-config = ARGV[0]
+file = ARGV[0]
+config = ARGV[1]
 
 `$HADOOP_HOME/bin/hadoop fs -conf #{config} -rmr #{file}`

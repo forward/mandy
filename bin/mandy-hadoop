@@ -19,18 +19,16 @@ require absolute_path(file)
 
 Mandy::Job.jobs.each_with_index do |job, i|
   
-  jobconf = job.settings.map { |key, value| %(-jobconf #{key}="#{value}") }.join(' ')
-  
+  jobconf = job.settings.map { |key, value| %(-D #{key}='#{value}') }.join(' ')
   output = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
   
-  command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar \
-                  -additionalconfspec "#{config}" \
+  command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar #{jobconf}\
+                  -conf '#{config}' \
                   -input "#{input}"  \
                   -mapper "mandy-map #{filename} '#{job.name}'"  \
                   -reducer "mandy-reduce #{filename} '#{job.name}'"  \
                   -file "#{file}" \
-                  -output "#{output}" \
-                  #{jobconf})
+                  -output "#{output}")
 
   `#{command}`
 
