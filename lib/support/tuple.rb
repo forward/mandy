@@ -17,7 +17,12 @@ module Mandy
       new(*str.split(SEPERATOR))
     end
     
+    def inspect
+      %(<Tuple #{self.to_s}>)
+    end
+    
     def ==(other)
+      return false unless self.class == other.class
       self.name == other.name && self.value == other.value
     end
   end
