@@ -8,7 +8,7 @@ module Mandy
     
     def map(input_stream, output_stream=StringIO.new(''), &blk)
       input_stream = input_from_array(input_stream) if input_stream.is_a?(Array)
-      input_stream = StringIO.new(input_stream.to_s) unless input_stream.is_a?(StringIO)
+      input_stream = StringIO.new(input_stream) if input_stream.is_a?(String)
       @job.run_map(input_stream, output_stream, &blk)
       output_stream.rewind
       output_stream
@@ -16,7 +16,7 @@ module Mandy
     
     def reduce(input_stream, output_stream=StringIO.new(''), &blk)
       input_stream = input_from_hash(input_stream) if input_stream.is_a?(Hash)
-      input_stream = StringIO.new(input_stream.to_s) unless input_stream.is_a?(StringIO)
+      input_stream = StringIO.new(input_stream) if input_stream.is_a?(String)
       @job.run_reduce(input_stream, output_stream, &blk)
       output_stream.rewind
       output_stream
