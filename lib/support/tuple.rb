@@ -16,7 +16,9 @@ module Mandy
     end
     
     def self.from_s(str)
-      new(*str.split(SEPERATOR))
+      parts = str.split(SEPERATOR)
+      raise "Can't create tuple from #{str.inspect}. Format should be 'A#{SEPERATOR}B'" unless parts.size==2
+      new(*parts)
     end
     
     def inspect

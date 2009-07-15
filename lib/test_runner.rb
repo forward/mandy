@@ -22,8 +22,8 @@ module Mandy
       output_stream
     end
     
-    def self.end_to_end
-      CompositeJobRunner.new(Mandy::Job.jobs)
+    def self.end_to_end(verbose=false)
+      CompositeJobRunner.new(Mandy::Job.jobs,verbose)
     end
     
     private
@@ -42,8 +42,9 @@ module Mandy
     end
     
     class CompositeJobRunner
-      def initialize(jobs)
+      def initialize(jobs, verbose=false)
         @jobs = jobs
+        @verbose = verbose
         @job_runners = @jobs.map { |job| Mandy::TestRunner.new(job.name) }
       end
       
@@ -52,12 +53,16 @@ module Mandy
         reduce_temp = StringIO.new('')
         @job_runners.each_with_index do |runner, index|
           runner.map(input_stream, map_temp)
-          # puts "#{runner.job.name} [MAP] #{map_temp.readlines.inspect}"
-          # map_temp.rewind
+          if @verbose
+            puts "#{runner.job.name} [MAP] #{map_temp.readlines.inspect}"
+            map_temp.rewind
+          end
           reduce_input = StringIO.new(map_temp.readlines.sort.join(''))
           runner.reduce(reduce_input, (index==@job_runners.size-1 ? output_stream : reduce_temp))
-          # puts "#{runner.job.name} [RED] #{reduce_temp.readlines.inspect}"
-          # reduce_temp.rewind
+          if @verbose
+            puts "#{runner.job.name} [RED] #{reduce_temp.readlines.inspect}"
+            reduce_temp.rewind
+          end
           input_stream = reduce_temp
           map_temp = StringIO.new('')
           reduce_temp = StringIO.new('')

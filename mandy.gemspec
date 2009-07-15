@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
 
   s.name = 'mandy'
-  s.version = '0.1.6'
+  s.version = '0.1.7'
   s.date = '2009-07-09'
 
   s.description = "Map/Reduce"
