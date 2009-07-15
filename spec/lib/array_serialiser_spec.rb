@@ -18,4 +18,9 @@ describe Mandy::ArraySerializer do
     tuple = Mandy::Tuple.new('k','v')
     Mandy::ArraySerializer.tuples_from_s('k,v|k,v').should == [tuple, tuple]
   end
+  
+  it "is equal to other if they share arrays in common" do
+    Mandy::ArraySerializer.new([1,2,3]).should == Mandy::ArraySerializer.new([1,2,3])
+    Mandy::ArraySerializer.new([1,2,3]).should == [1,2,3]
+  end
 end

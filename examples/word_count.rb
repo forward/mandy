@@ -43,7 +43,7 @@ job "Histogram" do
   
   reduce do |range, counts|
     total = counts.inject(0) {|sum,count| sum+count.to_i }
-    emit(range, '|'*(total/20).ceil)
+    emit(range, '|'*total)
   end
 end
 

@@ -25,4 +25,11 @@ describe Mandy::Tuple do
     tuple1.should == tuple2
     tuple2.should_not == tuple3
   end
+  
+  it "allows setting different accessor methods" do
+    tuple = Mandy::Tuple.new('a', 'b', :a, :b)
+    tuple.a.should == 'a'
+    tuple.b = 'b1'
+    tuple.b.should == 'b1'
+  end
 end

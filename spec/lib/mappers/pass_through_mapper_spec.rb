@@ -29,4 +29,12 @@ describe Mandy::Mappers::PassThroughMapper do
     map.should_receive(:emit).with('a', 1)
     map.execute
   end
+  
+  it "serializes array values" do
+    mapper = Mandy::Mappers::PassThroughMapper.compile { |k,v| emit('a', [1,2,3]) }
+    output = StringIO.new('')
+    map = mapper.new(StringIO.new("k\tv"), output)
+    output.should_receive(:puts).with("a\t1|2|3")
+    map.execute
+  end
 end

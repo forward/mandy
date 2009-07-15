@@ -65,4 +65,13 @@ describe "Word count example" do
       end
     end
   end
+  
+  describe "end-to-end tests" do
+    it "runs end to end tests" do
+      runner = Mandy::TestRunner.end_to_end
+      output = StringIO.new('')
+      runner.execute(StringIO.new("hello andy andy\nhello paul\n"), output)
+      output.readlines.should == ["00000-00001\t|\n", "00002-00003\t||\n"]
+    end
+  end
 end

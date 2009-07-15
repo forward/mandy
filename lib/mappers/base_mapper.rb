@@ -27,13 +27,18 @@ module Mandy
     
       def emit(key, value=nil)
         key = 'nil' if key.nil?
-        @output.puts(value.nil? ? key.to_s : "#{key}\t#{value}")
+        @output.puts(value.nil? ? key.to_s : "#{serialize(key)}\t#{serialize(value)}")
       end
     
       private
     
       def mapper(key,value)
         #nil
+      end
+      
+      def serialize(value)
+        value = ArraySerializer.new(value) if value.is_a?(Array)
+        value.to_s
       end
     end
   end

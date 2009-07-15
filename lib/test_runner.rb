@@ -1,23 +1,29 @@
 module Mandy
   class TestRunner
+    attr_reader :job
+    
     def initialize(job=Mandy::Job.jobs.first.name)
       @job = Mandy::Job.find_by_name(job)
     end
     
-    def map(input, output_stream=StringIO.new(''), &blk)
-      input = input_from_array(input) if input.is_a?(Array)
-      input_stream = StringIO.new(input.to_s)
+    def map(input_stream, output_stream=StringIO.new(''), &blk)
+      input_stream = input_from_array(input_stream) if input_stream.is_a?(Array)
+      input_stream = StringIO.new(input_stream.to_s) unless input_stream.is_a?(StringIO)
       @job.run_map(input_stream, output_stream, &blk)
       output_stream.rewind
       output_stream
     end
     
-    def reduce(input, output_stream=StringIO.new(''), &blk)
-      input = input_from_hash(input) if input.is_a?(Hash)
-      input_stream = StringIO.new(input.to_s)
+    def reduce(input_stream, output_stream=StringIO.new(''), &blk)
+      input_stream = input_from_hash(input_stream) if input_stream.is_a?(Hash)
+      input_stream = StringIO.new(input_stream.to_s) unless input_stream.is_a?(StringIO)
       @job.run_reduce(input_stream, output_stream, &blk)
       output_stream.rewind
       output_stream
+    end
+    
+    def self.end_to_end
+      CompositeJobRunner.new(Mandy::Job.jobs)
     end
     
     private
@@ -33,6 +39,31 @@ module Mandy
         values.each { |value| output << "#{key}\t#{value}" }
       end
       input_from_array(output.sort)
+    end
+    
+    class CompositeJobRunner
+      def initialize(jobs)
+        @jobs = jobs
+        @job_runners = @jobs.map { |job| Mandy::TestRunner.new(job.name) }
+      end
+      
+      def execute(input_stream, output_stream=StringIO.new(''))
+        map_temp = StringIO.new('')
+        reduce_temp = StringIO.new('')
+        @job_runners.each_with_index do |runner, index|
+          runner.map(input_stream, map_temp)
+          # puts "#{runner.job.name} [MAP] #{map_temp.readlines.inspect}"
+          # map_temp.rewind
+          reduce_input = StringIO.new(map_temp.readlines.sort.join(''))
+          runner.reduce(reduce_input, (index==@job_runners.size-1 ? output_stream : reduce_temp))
+          # puts "#{runner.job.name} [RED] #{reduce_temp.readlines.inspect}"
+          # reduce_temp.rewind
+          input_stream = reduce_temp
+          map_temp = StringIO.new('')
+          reduce_temp = StringIO.new('')
+        end
+        output_stream
+      end
     end
   end
 end
