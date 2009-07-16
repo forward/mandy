@@ -34,6 +34,15 @@ module Mandy
       set('mapred.reduce.tasks', count)
     end
     
+    def store(type, name, options={})
+      Mandy.stores[name] = case type
+      when :hbase
+        Stores::HBase.new(options)
+      else
+        raise "Unknown store type #{type}"
+      end
+    end
+    
     def map(klass=nil, &blk)
       @mapper_class = klass || Mandy::Mappers::Base.compile(&blk)
     end

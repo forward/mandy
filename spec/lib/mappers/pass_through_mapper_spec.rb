@@ -37,4 +37,16 @@ describe Mandy::Mappers::PassThroughMapper do
     output.should_receive(:puts).with("a\t1|2|3")
     map.execute
   end
+  
+  it "can read/write to stores" do
+    store = mock('store')
+    store.should_receive(:get).with("a")
+    store.should_receive(:put).with("a", 'b'=>'c')
+    Mandy::stores[:test] = store
+    mapper = Mandy::Mappers::PassThroughMapper.compile do |k,v| 
+      put(:test, "a", 'b'=>'c')
+      get(:test, 'a')
+    end
+    mapper.new(StringIO.new("1\n"), StringIO.new).execute
+  end
 end

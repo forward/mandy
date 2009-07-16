@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
 
   s.name = 'mandy'
-  s.version = '0.1.7'
+  s.version = '0.1.8'
   s.date = '2009-07-09'
 
   s.description = "Map/Reduce"
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
     lib/mandy.rb
     lib/support/tuple.rb
     lib/support/array_serializer.rb
+    lib/task.rb
     lib/dsl.rb
     lib/job.rb
     lib/mappers/base_mapper.rb
@@ -43,6 +44,13 @@ Gem::Specification.new do |s|
     lib/reducers/sum_reducer.rb
     lib/reducers/max_reducer.rb
     lib/reducers/min_reducer.rb
+    lib/stores/hbase.rb
+    lib/stores/in_memory.rb
+    lib/ruby-hbase.rb
+    lib/ruby-hbase/hbase_table.rb
+    lib/ruby-hbase/scanner.rb
+    lib/ruby-hbase/version.rb
+    lib/ruby-hbase/xml_decoder.rb
     lib/test_runner.rb
   ]
   # = MANIFEST =

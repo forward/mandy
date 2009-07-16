@@ -1,12 +1,6 @@
 module Mandy
   module Reducers
-    class Base
-      KEY_VALUE_SEPERATOR = "\t" unless defined?(KEY_VALUE_SEPERATOR)
-    
-      def initialize(input=STDIN, output=STDOUT)
-        @input, @output = input, output
-      end
-    
+    class Base < Mandy::Task
       def self.compile(&blk)
         Class.new(Mandy::Reducers::Base) do 
           self.class_eval do
@@ -30,20 +24,10 @@ module Mandy
         reducer(last_key, values)
       end
     
-      def emit(key, value=nil)
-        key = 'nil' if key.nil?
-        @output.puts(value.nil? ? key.to_s : "#{serialize(key)}\t#{serialize(value)}")
-      end
-    
       private
     
       def reducer(key,values)
         #nil
-      end
-      
-      def serialize(value)
-        value = ArraySerializer.new(value) if value.is_a?(Array)
-        value.to_s
       end
     end
   end
