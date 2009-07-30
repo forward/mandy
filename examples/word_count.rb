@@ -20,7 +20,8 @@ job "Word Count" do
     words = {}
     value.split(' ').each do|word|
       word.downcase!
-      word.gsub!(/^\W|\W$/, '')
+      word.gsub!(/\W|[0-9]/, '')
+      next unless word.any?
       words[word] ||= 0 
       words[word] += 1
     end
@@ -43,7 +44,7 @@ job "Histogram" do
   
   reduce do |range, counts|
     total = counts.inject(0) {|sum,count| sum+count.to_i }
-    emit(range, '|'*total)
+    emit(range, '|'*(total/20))
   end
 end
 

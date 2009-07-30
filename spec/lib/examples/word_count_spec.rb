@@ -43,7 +43,7 @@ describe "Word count example" do
       @word_count_runner.map("a. 'b c'd") do |mapper|
         mapper.should_receive(:emit).with('a',1)
         mapper.should_receive(:emit).with('b',1)
-        mapper.should_receive(:emit).with("c'd",1)
+        mapper.should_receive(:emit).with("cd",1)
       end
     end
   end
@@ -71,7 +71,7 @@ describe "Word count example" do
       runner = Mandy::TestRunner.end_to_end
       output = StringIO.new('')
       runner.execute(StringIO.new("hello andy andy\nhello paul\n"), output)
-      output.readlines.should == ["00000-00001\t|\n", "00002-00003\t||\n"]
+      output.readlines.should == ["00000-00001\t\n", "00002-00003\t\n"]
     end
   end
 end
