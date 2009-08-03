@@ -36,7 +36,7 @@ job "Histogram" do
   map_tasks 5
   reduce_tasks 3
   
-  RANGES = [0..1, 2..3, 4..5, 6..10, 11..20, 21..30, 31..40, 41..50, 51..100, 101..200, 201..300, 301..10_000]
+  RANGES = [0..1, 2..3, 4..5, 6..10, 11..20, 21..30, 31..40, 41..50, 51..100, 101..200, 201..300, 301..10_000, 10_001..99_999]
   map do |word, count|
     range = RANGES.find {|range| range.include?(count.to_i) }
     emit("#{range.first.to_s.rjust(5,'0')}-#{range.last.to_s.rjust(5,'0')}", 1)
