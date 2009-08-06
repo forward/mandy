@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+if ARGV.size==0
+  puts "USAGE: mandy-get hdfs_file_location local_file_destination cluster-config.xml"
+  exit
+end
+
+def absolute_path(path)
+  path =~ /^\// ? path : File.join(Dir.pwd, path)
+end
+
+remote_file = ARGV[0]
+local_file = ARGV[1]
+config = absolute_path(ARGV[2])
+
+`$HADOOP_HOME/bin/hadoop fs -conf #{config} -getmerge #{remote_file} #{local_file}`
