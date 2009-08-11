@@ -1,15 +1,3 @@
-# normally just requiring mandy through gems is fine.
-# we try and load a local version first in this example so that our specs don't use gem files.
-if ENV['MANDY_PATH']
-  require ENV['MANDY_PATH']
-else
-  require "rubygems"
-  require "mandy"
-end
-
-# including Mandy::DSL adds the block methods used below to the global namespace, it's highly recommended.
-include Mandy::DSL
-
 # a job can consist of a map block, a reduce block or both along with some configuration options.
 # this job counts words in the input document.
 job "Word Count" do
@@ -30,6 +18,3 @@ job "Word Count" do
 
   reduce(Mandy::Reducers::SumReducer)
 end
-
-require File.join(File.dirname(__FILE__), *%w[histogram])
-require File.join(File.dirname(__FILE__), *%w[sort])

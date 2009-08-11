@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+require "rubygems"
+require "mandy"
 
 if ARGV.size==0
   puts "USAGE: mandy-reduce my_script.rb 'Job Name' [payload]"
