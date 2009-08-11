@@ -1,11 +1,13 @@
 #!/usr/bin/env ruby
+require "rubygems"
+require "mandy"
 
 def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end
 
 if ARGV.size==0
-  puts "USAGE: mandy-hadoop my_script.rb input_file_or_folder_on_hdfs output_folder_on_hdfs cluster-config.xml"
+  puts "USAGE: mandy-hadoop my_script.rb input_file_or_folder_on_hdfs output_folder_on_hdfs cluster-config.xml [payload]"
   exit
 end
 
@@ -14,6 +16,7 @@ filename = File.basename(file)
 input  = ARGV[1]
 output_folder = ARGV[2]
 config = ARGV[3]
+payload = ARGV[4] ? Mandy::Packer.pack(ARGV[4]) : ARGV[0]
 
 require absolute_path(file)
 
@@ -25,9 +28,9 @@ Mandy::Job.jobs.each_with_index do |job, i|
   command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar #{jobconf}\
                   -conf '#{config}' \
                   -input "#{input}"  \
-                  -mapper "mandy-map #{filename} '#{job.name}'"  \
-                  -reducer "mandy-reduce #{filename} '#{job.name}'"  \
-                  -file "#{file}" \
+                  -mapper "mandy-map #{filename} '#{job.name}' #{payload}"  \
+                  -reducer "mandy-reduce #{filename} '#{job.name}' #{payload}"  \
+                  -file "#{payload}" \
                   -output "#{output}")
 
   `#{command}`

@@ -1,8 +1,15 @@
 #!/usr/bin/env ruby
+require "rubygems"
+require "mandy"
 
 if ARGV.size==0
-  puts "USAGE: mandy-map my_script.rb 'Job Name'"
+  puts "USAGE: mandy-map my_script.rb 'Job Name' [payload]"
   exit
+end
+
+if ARGV.size > 3
+  payload = ARGV[3]
+  Mandy::Packer.unpack(payload)
 end
 
 def absolute_path(path)

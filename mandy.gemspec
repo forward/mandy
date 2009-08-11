@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
 
   s.name = 'mandy'
-  s.version = '0.2'
+  s.version = '0.2.1'
   s.date = '2009-07-09'
 
   s.description = "Map/Reduce"
@@ -41,6 +41,7 @@ Gem::Specification.new do |s|
     lib/job.rb
     lib/mappers/base_mapper.rb
     lib/mappers/pass_through_mapper.rb
+    lib/packer.rb
     lib/reducers/base_reducer.rb
     lib/reducers/pass_through_reducer.rb
     lib/reducers/sum_reducer.rb

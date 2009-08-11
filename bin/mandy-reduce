@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 if ARGV.size==0
-  puts "USAGE: mandy-reduce my_script.rb 'Job Name'"
+  puts "USAGE: mandy-reduce my_script.rb 'Job Name' [payload]"
   exit
 end
 

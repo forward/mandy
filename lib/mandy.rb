@@ -2,6 +2,7 @@
   task
   dsl 
   job 
+  packer
   support/tuple 
   support/array_serializer 
   mappers/base_mapper 
