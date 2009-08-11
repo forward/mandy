@@ -13,8 +13,8 @@ module Mandy
     end
     
     def self.unpack(file)
-      return false unless File.extname(payload) == '.tar'
-      throw `tar -xf #{file}`
+      return false unless File.extname(file) == '.tar'
+      `tar -xf #{file}`
     end
   end
 end
