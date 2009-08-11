@@ -7,8 +7,8 @@ if ARGV.size==0
   exit
 end
 
-if ARGV.size > 3
-  payload = ARGV[3]
+if ARGV.size > 2
+  payload = ARGV[2]
   Mandy::Packer.unpack(payload)
 end
 
