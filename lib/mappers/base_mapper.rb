@@ -11,7 +11,7 @@ module Mandy
       
       def execute
         @input.each_line do |line|
-           key, value = line.split(KEY_VALUE_SEPERATOR)
+           key, value = line.split(KEY_VALUE_SEPERATOR, 2)
            key, value = nil, key if value.nil?
            value.chomp!
            mapper(key, value)
