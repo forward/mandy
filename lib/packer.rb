@@ -8,7 +8,7 @@ module Mandy
       return dir if File.file?(dir)
       FileUtils.mkdir_p(TMP_DIR)
       tmp_path = "#{TMP_DIR}/packed-job-#{Time.now.to_i}.tar"
-      `tar -cf #{tmp_path} #{dir}`
+      Dir.chdir(dir) { `tar -cf #{tmp_path} *` }
       tmp_path
     end
     

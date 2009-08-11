@@ -30,3 +30,6 @@ job "Word Count" do
 
   reduce(Mandy::Reducers::SumReducer)
 end
+
+require File.join(File.dirname(__FILE__), *%w[histogram])
+require File.join(File.dirname(__FILE__), *%w[sort])

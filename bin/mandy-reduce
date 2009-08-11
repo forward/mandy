@@ -9,6 +9,11 @@ def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end
 
+if ARGV.size > 3
+  payload = ARGV[3]
+  Mandy::Packer.unpack(payload)
+end
+
 file   = absolute_path(ARGV[0])
 job_name = ARGV[1]
 
