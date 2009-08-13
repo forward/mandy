@@ -1,9 +1,22 @@
 #!/usr/bin/env ruby
+require 'optparse'
+require 'ostruct'
 
-if ARGV.size==0
-  puts "USAGE: mandy-get hdfs_file_location local_file_destination cluster-config.xml"
-  exit
-end
+options = OpenStruct.new
+
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-get hdfs_file_location local_file_destination [options]"
+
+  opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
+    options.config = config
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
 
 def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
@@ -11,6 +24,6 @@ end
 
 remote_file = ARGV[0]
 local_file = ARGV[1]
-config = absolute_path(ARGV[2])
+config = absolute_path(options.config || 'cluster.xml')
 
 `$HADOOP_HOME/bin/hadoop fs -conf #{config} -getmerge #{remote_file} #{local_file}`

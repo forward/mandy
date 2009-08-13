@@ -9,7 +9,7 @@ job "Word Count" do
     value.split(' ').each do|word|
       word.downcase!
       word.gsub!(/\W|[0-9]/, '')
-      next unless word.any?
+      next if word.size == 0
       words[word] ||= 0 
       words[word] += 1
     end

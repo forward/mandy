@@ -1,11 +1,23 @@
 #!/usr/bin/env ruby
+require 'optparse'
+require 'ostruct'
 
-if ARGV.size==0
-  puts "USAGE: mandy-rm file_or_folder_on_hdfs cluster-config.xml"
-  exit
-end
+options = OpenStruct.new
+
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-rm file_or_folder_on_hdfs [options]"
+
+  opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
+    options.config = config
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
 
 file = ARGV[0]
-config = ARGV[1]
+config = options.config || 'cluster.xml'
 
 `$HADOOP_HOME/bin/hadoop fs -conf #{config} -rmr #{file}`

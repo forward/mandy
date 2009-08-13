@@ -1,22 +1,40 @@
 #!/usr/bin/env ruby
 require "rubygems"
 require "mandy"
+require 'optparse'
+require 'ostruct'
+
+options = OpenStruct.new
+
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-hadoop script input output [options]"
+
+  opts.on("-p", "--payload PAYLOAD", "Add a working directory to be sent to the cluster.") do |payload|
+    options.payload = payload
+  end
+  
+  opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
+    options.config = config
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
 
 def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
-end
-
-if ARGV.size==0
-  puts "USAGE: mandy-hadoop my_script.rb input_file_or_folder_on_hdfs output_folder_on_hdfs cluster-config.xml [payload]"
-  exit
 end
 
 file   = ARGV[0]
 filename = File.basename(file)
 input  = ARGV[1]
 output_folder = ARGV[2]
-config = ARGV[3]
-payload = ARGV[4] ? Mandy::Packer.pack(ARGV[4]) : ARGV[0]
+config = options.config || 'cluster.xml'
+payload = options.payload ? Mandy::Packer.pack(options.payload) : ARGV[0]
+
+at_exit { Mandy::Packer.cleanup!(payload) }
 
 require absolute_path(file)
 

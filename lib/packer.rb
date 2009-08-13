@@ -16,5 +16,10 @@ module Mandy
       return false unless File.extname(file) == '.tar'
       `tar -xf #{file}`
     end
+    
+    def self.cleanup!(file)
+      return false unless File.extname(file) == '.tar'
+      `rm #{file}`
+    end
   end
 end
