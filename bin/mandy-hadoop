@@ -20,6 +20,8 @@ payload = ARGV[4] ? Mandy::Packer.pack(ARGV[4]) : ARGV[0]
 
 require absolute_path(file)
 
+output = nil
+
 Mandy::Job.jobs.each_with_index do |job, i|
   
   jobconf = job.settings.map { |key, value| %(-D #{key}='#{value}') }.join(' ')
@@ -38,3 +40,6 @@ Mandy::Job.jobs.each_with_index do |job, i|
   # puts "#{command}"
   input = output
 end
+
+# print out the output location so caller can know where to get the results from
+puts output
