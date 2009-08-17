@@ -16,6 +16,7 @@ input  = absolute_path(ARGV[1])
 output_folder = FileUtils.mkdir_p(absolute_path(ARGV[2]))
 require file
 
+out = nil
 Mandy::Job.jobs.each_with_index do |job, i|
   out = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
   puts "Running #{job.name}..."
@@ -23,4 +24,4 @@ Mandy::Job.jobs.each_with_index do |job, i|
   input = out
 end
 
-puts "All Done! [#{input}]"
+puts out
