@@ -40,9 +40,11 @@ Gem::Specification.new do |s|
     lib/dsl.rb
     lib/job.rb
     lib/mappers/base_mapper.rb
+    lib/mappers/transpose_mapper.rb
     lib/mappers/pass_through_mapper.rb
     lib/packer.rb
     lib/reducers/base_reducer.rb
+    lib/reducers/transpose_reducer.rb
     lib/reducers/pass_through_reducer.rb
     lib/reducers/sum_reducer.rb
     lib/reducers/max_reducer.rb
