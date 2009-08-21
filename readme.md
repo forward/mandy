@@ -7,3 +7,5 @@ It provides a simple DSL to define new jobs for distribution. See examples/word_
 Run the word count example locally with...
 
     mandy-local examples/word_count.rb examples/alice.txt examples/output
+
+Mandy is licensed under the MIT Licence, please see LICENCE for further information.
