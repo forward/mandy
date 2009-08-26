@@ -1,9 +1,10 @@
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.2.6'
+  s.version = '0.2.7'
   s.date = '2009-07-09'
 
   s.description = "Map/Reduce"

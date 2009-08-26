@@ -20,7 +20,10 @@ module Mandy
     end
 
     private
-
+    
+    def parameter(name)
+      ENV[name.to_s]
+    end
 
     def serialize(value)
       value = ArraySerializer.new(value) if value.is_a?(Array)

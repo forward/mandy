@@ -17,6 +17,10 @@ OptionParser.new do |opts|
     options.config = config
   end
   
+  opts.on("-v", '--variables name=value', "Pass additional parameters to jobs") do |config|
+    options.cmdenv = config
+  end
+  
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -33,6 +37,7 @@ input  = ARGV[1]
 output_folder = ARGV[2]
 config = options.config || 'cluster.xml'
 payload = options.payload ? Mandy::Packer.pack(options.payload) : ARGV[0]
+cmdenv = options.cmdenv
 
 at_exit { Mandy::Packer.cleanup!(payload) }
 
@@ -51,6 +56,7 @@ Mandy::Job.jobs.each_with_index do |job, i|
                   -mapper "mandy-map #{filename} '#{job.name}' #{File.basename(payload)}"  \
                   -reducer "mandy-reduce #{filename} '#{job.name}' #{File.basename(payload)}"  \
                   -file "#{payload}" \
+                  -cmdenv #{cmdenv} \
                   -output "#{output}")
 
   `#{command}`
