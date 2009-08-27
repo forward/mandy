@@ -20,6 +20,9 @@
   ruby-hbase
 ).each {|file| require File.join(File.dirname(__FILE__), file) }
 
+require "rubygems"
+require "json"
+
 module Mandy
   class << self
     def stores

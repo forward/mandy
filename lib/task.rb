@@ -1,5 +1,6 @@
 module Mandy
   class Task
+    JSON_PAYLOAD_KEY = "json"
     KEY_VALUE_SEPERATOR = "\t" unless defined?(KEY_VALUE_SEPERATOR)
 
     def initialize(input=STDIN, output=STDOUT)
@@ -22,7 +23,17 @@ module Mandy
     private
     
     def parameter(name)
+      return find_json_param(name) if json_provided?
       ENV[name.to_s]
+    end
+    
+    def find_json_param(name)
+      @json_args ||= JSON.parse(ENV[JSON_PAYLOAD_KEY])
+      @json_args[name.to_s]
+    end
+    
+    def json_provided?
+      !ENV[JSON_PAYLOAD_KEY].nil?
     end
 
     def serialize(value)

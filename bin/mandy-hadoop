@@ -21,6 +21,10 @@ OptionParser.new do |opts|
     options.cmdenv = config
   end
   
+  opts.on("-j", '--json {"key":"1 value"}', "Pass JSON encoded parameters to jobs") do |config|
+    options.cmdenv = "json=#{config}"
+  end
+  
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
