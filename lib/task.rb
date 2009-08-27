@@ -28,7 +28,7 @@ module Mandy
     end
     
     def find_json_param(name)
-      @json_args ||= JSON.parse(ENV[JSON_PAYLOAD_KEY])
+      @json_args ||= JSON.parse(URI.decode(ENV[JSON_PAYLOAD_KEY]))
       @json_args[name.to_s]
     end
     

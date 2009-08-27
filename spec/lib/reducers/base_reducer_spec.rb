@@ -10,4 +10,9 @@ describe Mandy::Reducers::Base do
     ENV["json"] = '{"meaning_of_life":"42"}'
     Mandy::Reducers::Base.new.send(:parameter, :meaning_of_life).should == "42"
   end
+  
+  it "should parse uri encoded json parameters" do
+    ENV["json"] = '%7B%22meaning_of_life%22:%2242%22%7D'
+    Mandy::Reducers::Base.new.send(:parameter, :meaning_of_life).should == "42"    
+  end
 end

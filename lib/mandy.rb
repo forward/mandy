@@ -22,6 +22,7 @@
 
 require "rubygems"
 require "json"
+require "uri"
 
 module Mandy
   class << self
