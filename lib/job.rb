@@ -26,6 +26,7 @@ module Mandy
     def mixin(*modules)
       modules.each {|m| @modules << m}
     end
+    alias_method :serialize, :mixin
     
     def set(key, value)
       @settings[key.to_s] = value.to_s

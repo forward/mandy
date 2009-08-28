@@ -14,7 +14,7 @@ module Mandy
            key, value = line.split(KEY_VALUE_SEPERATOR, 2)
            key, value = nil, key if value.nil?
            value.chomp!
-           mapper(key, value)
+           mapper(deserialize_key(key), deserialize_value(value))
         end
       end
       

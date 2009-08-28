@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
     lib/reducers/sum_reducer.rb
     lib/reducers/max_reducer.rb
     lib/reducers/min_reducer.rb
+    lib/serializers/json
     lib/stores/hbase.rb
     lib/stores/in_memory.rb
     lib/ruby-hbase.rb

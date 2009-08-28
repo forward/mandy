@@ -21,7 +21,7 @@ module Mandy
            end
            values << value
         end
-        reducer(last_key, values)
+        reducer(deserialize_key(last_key), values.map {|v| deserialize_value(v) })
       end
     
       private

@@ -1,3 +1,7 @@
+require "rubygems"
+require "json"
+require "uri"
+
 %w(
   task
   dsl 
@@ -14,15 +18,12 @@
   reducers/max_reducer 
   reducers/min_reducer
   reducers/transpose_reducer
+  serializers/json
   stores/hbase
   stores/in_memory
   test_runner
   ruby-hbase
 ).each {|file| require File.join(File.dirname(__FILE__), file) }
-
-require "rubygems"
-require "json"
-require "uri"
 
 module Mandy
   class << self

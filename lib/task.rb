@@ -10,9 +10,7 @@ module Mandy
 
     def emit(key, value=nil)
       key = 'nil' if key.nil?
-      key = pad(key) if key.is_a?(Numeric) && key.to_s.length < NUMERIC_PADDING
-      
-      @output.puts(value.nil? ? key.to_s : "#{serialize(key)}\t#{serialize(value)}")
+      @output.puts(value.nil? ? key.to_s : "#{serialize_key(key)}\t#{serialize_value(value)}")
     end
 
     def get(store, key)
@@ -43,8 +41,21 @@ module Mandy
     def json_provided?
       !ENV[JSON_PAYLOAD_KEY].nil?
     end
+    
+    def deserialize_key(key)
+      key
+    end
+    
+    def deserialize_value(value)
+      value
+    end
+    
+    def serialize_key(key)
+      key = pad(key) if key.is_a?(Numeric) && key.to_s.length < NUMERIC_PADDING
+      key
+    end
 
-    def serialize(value)
+    def serialize_value(value)
       value = ArraySerializer.new(value) if value.is_a?(Array)
       value.to_s
     end

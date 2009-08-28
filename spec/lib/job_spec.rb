@@ -37,4 +37,30 @@ describe Mandy::Job do
       output.read.chomp.should == "trogdor"
     end
   end
+    
+  describe "custom serialisation" do
+    it "should allow serialisation module to be mixed in" do
+      input = to_input_line("manilow", {:dates => [1, 9, 7, 8], :name => "lola"})
+      output = StringIO.new('')
+      job = Mandy::Job.new("lola") do
+        serialize Mandy::Serializers::Json
+
+        map do|k,v|
+          k.should == "manilow"
+          v.should == {"dates" => [1, 9, 7, 8], "name" => "lola"}
+          emit(k, v)
+        end
+      end
+      
+      job.run_map(input, output)
+      
+      output.rewind
+      output.read.chomp.should == "manilow\t{\"name\":\"lola\",\"dates\":[1,9,7,8]}"
+    end
+    
+    def to_input_line(k,v)
+      [k, v.to_json].join("\t")
+    end
+  end
+  
 end
