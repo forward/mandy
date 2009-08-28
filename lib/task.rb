@@ -2,6 +2,7 @@ module Mandy
   class Task
     JSON_PAYLOAD_KEY = "json"
     KEY_VALUE_SEPERATOR = "\t" unless defined?(KEY_VALUE_SEPERATOR)
+    NUMERIC_PADDING = 16
 
     def initialize(input=STDIN, output=STDOUT)
       @input, @output = input, output
@@ -9,6 +10,8 @@ module Mandy
 
     def emit(key, value=nil)
       key = 'nil' if key.nil?
+      key = pad(key) if key.is_a?(Numeric) && key.to_s.length < NUMERIC_PADDING
+      
       @output.puts(value.nil? ? key.to_s : "#{serialize(key)}\t#{serialize(value)}")
     end
 
@@ -21,6 +24,11 @@ module Mandy
     end
 
     private
+    def pad(key)
+      key_parts = key.to_s.split(".")
+      key_parts[0] = key_parts.first.rjust(NUMERIC_PADDING, '0')
+      key_parts.join('.')
+    end
     
     def parameter(name)
       return find_json_param(name) if json_provided?
