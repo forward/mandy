@@ -16,10 +16,15 @@ module Mandy
     def initialize(name, &blk)
       @name = name
       @settings = {}
+      @modules = []
       @mapper_class = Mandy::Mappers::PassThroughMapper
       @reducer_class = Mandy::Reducers::PassThroughReducer
       set('mapred.job.name', name)
       instance_eval(&blk) if blk
+    end
+    
+    def mixin(*modules)
+      modules.each {|m| @modules << m}
     end
     
     def set(key, value)
@@ -45,10 +50,14 @@ module Mandy
     
     def map(klass=nil, &blk)
       @mapper_class = klass || Mandy::Mappers::Base.compile(&blk)
+      @modules.each {|m| @mapper_class.send(:include, m) }
+      @mapper_class
     end
     
     def reduce(klass=nil, &blk)
       @reducer_class = klass || Mandy::Reducers::Base.compile(&blk)
+      @modules.each {|m| @reducer_class.send(:include, m) }
+      @reducer_class
     end
     
     def run_map(input=STDIN, output=STDOUT, &blk)
