@@ -1,8 +1,8 @@
 module Mandy
   module Reducers
     class Base < Mandy::Task
-      include Mandy::IO::Formatting
-      
+      include Mandy::IO::OutputFormatting
+
       def self.compile(&blk)
         Class.new(Mandy::Reducers::Base) do 
           self.class_eval do
@@ -24,11 +24,6 @@ module Mandy
            values << value
         end
         reducer(deserialize_key(last_key), values.map {|v| deserialize_value(v) })
-      end
-    
-      def emit(key, value=nil)
-        key = 'nil' if key.nil?
-        @output.puts(value.nil? ? key.to_s : "#{output_serialize_key(key)}\t#{output_serialize_value(value)}")
       end
     
       private

@@ -6,11 +6,16 @@ module Mandy
     
     attr_reader :input_format, :output_format
     
-    def initialize(input=STDIN, output=STDOUT, input_format = :plain, output_format = :plain)
+    def initialize(input=STDIN, output=STDOUT, input_format = nil, output_format = nil)
       @input, @output = input, output
       @input_format, @output_format = input_format, output_format
     end
 
+    def emit(key, value=nil)
+      key = 'nil' if key.nil?
+      @output.puts(value.nil? ? key.to_s : "#{output_serialize_key(key)}\t#{output_serialize_value(value)}")
+    end
+    
     def get(store, key)
       Mandy.stores[store].get(key)
     end
@@ -57,5 +62,14 @@ module Mandy
       value = ArraySerializer.new(value) if value.is_a?(Array)
       value.to_s
     end
+    
+    def output_serialize_key(key)
+      serialize_key(key)
+    end
+
+    def output_serialize_value(value)
+      serialize_value(value)
+    end
+    
   end
 end

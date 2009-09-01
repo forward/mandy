@@ -1,8 +1,8 @@
 module Mandy
   module Mappers
     class Base < Mandy::Task
-      include Mandy::IO::Formatting
-      
+      include Mandy::IO::InputFormatting
+
       def self.compile(&blk)
         Class.new(Mandy::Mappers::Base) do 
           self.class_eval do
@@ -20,11 +20,6 @@ module Mandy
         end
       end
 
-      def emit(key, value=nil)
-        key = 'nil' if key.nil?
-        @output.puts(value.nil? ? key.to_s : "#{serialize_key(key)}\t#{serialize_value(value)}")
-      end
-      
       private
     
       def mapper(key,value)

@@ -70,6 +70,7 @@ module Mandy
     end
     
     def run_map(input=STDIN, output=STDOUT, &blk)
+      @mapper_class.send(:include, Mandy::IO::OutputFormatting) unless reducer_defined?
       mapper = @mapper_class.new(input, output, @input_format, @output_format)
       yield(mapper) if blk
       mapper.execute
@@ -80,5 +81,12 @@ module Mandy
       yield(reducer) if blk
       reducer.execute
     end
+    
+    private
+    
+    def reducer_defined?
+      @reducer_class != Mandy::Reducers::PassThroughReducer
+    end
+    
   end
 end

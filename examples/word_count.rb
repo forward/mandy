@@ -27,7 +27,7 @@ job "Word Count" do
     end
     words.each {|word, count| emit(word, count) }
   end
-
+  
   reduce(Mandy::Reducers::SumReducer)
 end
 
