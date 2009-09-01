@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
     Rakefile
     lib/mandy.rb
     lib/support/tuple.rb
+    lib/support/formatting.rb
     lib/support/array_serializer.rb
     lib/task.rb
     lib/dsl.rb
@@ -50,7 +51,7 @@ Gem::Specification.new do |s|
     lib/reducers/sum_reducer.rb
     lib/reducers/max_reducer.rb
     lib/reducers/min_reducer.rb
-    lib/serializers/json
+    lib/serializers/json.rb
     lib/stores/hbase.rb
     lib/stores/in_memory.rb
     lib/ruby-hbase.rb
