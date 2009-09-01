@@ -28,6 +28,14 @@ module Mandy
     end
     alias_method :serialize, :mixin
     
+    def input_format(format)
+      @input_format = format
+    end
+
+    def output_format(format)
+      @output_format = format
+    end
+    
     def set(key, value)
       @settings[key.to_s] = value.to_s
     end
@@ -62,13 +70,13 @@ module Mandy
     end
     
     def run_map(input=STDIN, output=STDOUT, &blk)
-      mapper = @mapper_class.new(input, output)
+      mapper = @mapper_class.new(input, output, @input_format, @output_format)
       yield(mapper) if blk
       mapper.execute
     end
     
     def run_reduce(input=STDIN, output=STDOUT, &blk)
-      reducer = @reducer_class.new(input, output)
+      reducer = @reducer_class.new(input, output, @input_format, @output_format)
       yield(reducer) if blk
       reducer.execute
     end

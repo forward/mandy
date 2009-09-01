@@ -3,6 +3,7 @@ require "json"
 require "uri"
 
 %w(
+  support/formatting
   task
   dsl 
   job 

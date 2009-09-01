@@ -3,14 +3,12 @@ module Mandy
     JSON_PAYLOAD_KEY = "json"
     KEY_VALUE_SEPERATOR = "\t" unless defined?(KEY_VALUE_SEPERATOR)
     NUMERIC_PADDING = 16
-
-    def initialize(input=STDIN, output=STDOUT)
+    
+    attr_reader :input_format, :output_format
+    
+    def initialize(input=STDIN, output=STDOUT, input_format = :plain, output_format = :plain)
       @input, @output = input, output
-    end
-
-    def emit(key, value=nil)
-      key = 'nil' if key.nil?
-      @output.puts(value.nil? ? key.to_s : "#{serialize_key(key)}\t#{serialize_value(value)}")
+      @input_format, @output_format = input_format, output_format
     end
 
     def get(store, key)
