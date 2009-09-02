@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.email = "andy.kent@me.com"
   
   s.executables = %w[
+    mandy
     mandy-hadoop
     mandy-local
     mandy-map
