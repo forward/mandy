@@ -3,6 +3,7 @@ require "rubygems"
 require "mandy"
 require 'optparse'
 require 'ostruct'
+require 'uri'
 
 options = OpenStruct.new
 
@@ -19,6 +20,10 @@ OptionParser.new do |opts|
   
   opts.on("-v", '--variables name=value', "Pass additional parameters to jobs") do |config|
     options.cmdenv = config
+  end
+  
+  opts.on("-j", '--json {"key":"1 value"}', "Pass JSON encoded parameters to jobs") do |config|
+    options.cmdenv = "json=#{URI.encode(config)}"
   end
   
   opts.on_tail("-h", "--help", "Show this message") do

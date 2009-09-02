@@ -16,10 +16,24 @@ module Mandy
     def initialize(name, &blk)
       @name = name
       @settings = {}
+      @modules = []
       @mapper_class = Mandy::Mappers::PassThroughMapper
       @reducer_class = Mandy::Reducers::PassThroughReducer
       set('mapred.job.name', name)
       instance_eval(&blk) if blk
+    end
+    
+    def mixin(*modules)
+      modules.each {|m| @modules << m}
+    end
+    alias_method :serialize, :mixin
+    
+    def input_format(format)
+      @input_format = format
+    end
+
+    def output_format(format)
+      @output_format = format
     end
     
     def set(key, value)
@@ -45,22 +59,34 @@ module Mandy
     
     def map(klass=nil, &blk)
       @mapper_class = klass || Mandy::Mappers::Base.compile(&blk)
+      @modules.each {|m| @mapper_class.send(:include, m) }
+      @mapper_class
     end
     
     def reduce(klass=nil, &blk)
       @reducer_class = klass || Mandy::Reducers::Base.compile(&blk)
+      @modules.each {|m| @reducer_class.send(:include, m) }
+      @reducer_class
     end
     
     def run_map(input=STDIN, output=STDOUT, &blk)
-      mapper = @mapper_class.new(input, output)
+      @mapper_class.send(:include, Mandy::IO::OutputFormatting) unless reducer_defined?
+      mapper = @mapper_class.new(input, output, @input_format, @output_format)
       yield(mapper) if blk
       mapper.execute
     end
     
     def run_reduce(input=STDIN, output=STDOUT, &blk)
-      reducer = @reducer_class.new(input, output)
+      reducer = @reducer_class.new(input, output, @input_format, @output_format)
       yield(reducer) if blk
       reducer.execute
     end
+    
+    private
+    
+    def reducer_defined?
+      @reducer_class != Mandy::Reducers::PassThroughReducer
+    end
+    
   end
 end

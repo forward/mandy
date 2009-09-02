@@ -1,6 +1,8 @@
 module Mandy
   module Reducers
     class Base < Mandy::Task
+      include Mandy::IO::OutputFormatting
+
       def self.compile(&blk)
         Class.new(Mandy::Reducers::Base) do 
           self.class_eval do
@@ -21,11 +23,11 @@ module Mandy
            end
            values << value
         end
-        reducer(last_key, values)
+        reducer(deserialize_key(last_key), values.map {|v| deserialize_value(v) })
       end
     
       private
-    
+      
       def reducer(key,values)
         #nil
       end

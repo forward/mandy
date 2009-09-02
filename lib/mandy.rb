@@ -1,4 +1,9 @@
+require "rubygems"
+require "json"
+require "uri"
+
 %w(
+  support/formatting
   task
   dsl 
   job 
@@ -14,6 +19,7 @@
   reducers/max_reducer 
   reducers/min_reducer
   reducers/transpose_reducer
+  serializers/json
   stores/hbase
   stores/in_memory
   test_runner
