@@ -25,12 +25,15 @@ describe "Word count example" do
     end
     
     it "outputs correctly formatted key/value pairs (just a test to play with the test runner really)" do
-      @word_count_runner.map("hello andy andy\nhello paul").readlines.should == [
+      output = @word_count_runner.map("hello andy andy\nhello paul").readlines
+      [
         "andy\t2\n",
         "hello\t1\n",
         "paul\t1\n",
         "hello\t1\n"
-      ]
+      ].each do |expected_line|
+        output.should include(expected_line)
+      end      
     end
     
     it "downcases words" do
