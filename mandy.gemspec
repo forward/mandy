@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.2.15'
-  s.date = '2009-07-09'
+  s.version = '0.3.0'
+  s.date = '2009-10-02'
 
   s.description = "Map/Reduce"
   s.summary     = "Map/Reduce"
@@ -38,6 +38,7 @@ Gem::Specification.new do |s|
     readme.md
     Rakefile
     bootstrap.rb
+    Gemfile
     lib/mandy.rb
     lib/support/tuple.rb
     lib/support/formatting.rb
