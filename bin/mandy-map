@@ -1,15 +1,10 @@
 #!/usr/bin/env ruby
-require "rubygems"
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'gems', 'environment.rb')
 require "mandy"
 
 if ARGV.size==0
-  puts "USAGE: mandy-map my_script.rb 'Job Name' [payload]"
+  puts "USAGE: mandy-map my_script.rb 'Job Name'"
   exit
-end
-
-if ARGV.size > 2
-  payload = ARGV[2]
-  Mandy::Packer.unpack(payload)
 end
 
 def absolute_path(path)

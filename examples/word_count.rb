@@ -16,7 +16,8 @@ job "Word Count" do
   map_tasks 5
   reduce_tasks 3
   
-  map do |value|
+  map do |*values|
+    value = values.join(' ')
     words = {}
     
     update_status("Processing line: #{value}")
