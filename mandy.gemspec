@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
   s.authors = ["Andy Kent", "Paul Ingles"]
   s.email = "andy.kent@me.com"
   
+  s.add_dependency("bundler")
+  
   s.executables = %w[
     mandy
     mandy-hadoop
@@ -35,6 +37,7 @@ Gem::Specification.new do |s|
     bin/mandy-reduce
     readme.md
     Rakefile
+    bootstrap.rb
     lib/mandy.rb
     lib/support/tuple.rb
     lib/support/formatting.rb

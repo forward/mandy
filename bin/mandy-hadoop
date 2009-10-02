@@ -26,6 +26,10 @@ OptionParser.new do |opts|
     options.cmdenv = "json=#{URI.encode(config)}"
   end
   
+  opts.on("-g", '--gemfile filepath', "Path to your jobs Gemfile (defaults to ./Gemfile)") do |config|
+    options.gemfile = config
+  end
+  
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -36,12 +40,17 @@ def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end
 
+def gemfile(file)
+  path = absolute_path(file || 'Gemfile')
+  File.exist?(path) ? path : File.expand_path(File.join(File.dirname(__FILE__), '..', 'Gemfile'))
+end
+
 file   = ARGV[0]
 filename = File.basename(file)
 input  = ARGV[1]
 output_folder = ARGV[2]
 config = options.config || 'cluster.xml'
-payload = options.payload ? Mandy::Packer.pack(options.payload) : ARGV[0]
+payload = options.payload ? Mandy::Packer.pack(options.payload, gemfile(options.gemfile)) : ARGV[0]
 cmdenv = options.cmdenv
 
 at_exit { Mandy::Packer.cleanup!(payload) }
