@@ -31,6 +31,10 @@ module Mandy
       key_parts.join('.')
     end
     
+    def update_status(message)
+      STDERR.puts("reporter:status:#{message}")
+    end
+    
     def parameter(name)
       return find_json_param(name) if json_provided?
       ENV[name.to_s]

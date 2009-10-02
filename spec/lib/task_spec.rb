@@ -46,4 +46,14 @@ describe Mandy::Task do
       output.read.chomp.should == "99999999999999999\t"
     end
   end
+  
+  describe "status updates" do
+    it "writes reporter status message to STDERR" do
+      input = ""
+      output = StringIO.new('')
+      
+      STDERR.should_receive(:puts).with("reporter:status:this is the status")
+      Mandy::Task.new(input, output).send(:update_status, "this is the status")
+    end
+  end
 end

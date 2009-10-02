@@ -18,6 +18,9 @@ job "Word Count" do
   
   map do |key, value|
     words = {}
+    
+    update_status("Processing line: #{value}")
+    
     value.split(' ').each do |word|
       word.downcase!
       word.gsub!(/\W|[0-9]/, '')
