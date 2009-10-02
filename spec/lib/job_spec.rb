@@ -84,6 +84,25 @@ describe Mandy::Job do
       output.read.chomp.should == input
     end
     
+    it "should allow output to be converted to json from plaintext input" do
+      input = "manilow\t1978,lola"
+      output = StringIO.new('')
+      job = Mandy::Job.new("lola") do
+        serialize Mandy::Serializers::Json
+        input_format :plain
+        output_format :pants
+
+        map do|k,v|
+          emit(k, v.split(","))
+        end        
+      end
+      
+      job.run_map(input, output)
+      
+      output.rewind
+      output.read.chomp.should == "manilow\t[\"1978\",\"lola\"]"
+    end
+    
     it "should allow serialisation module to be mixed in" do
       input = to_input_line("manilow", {:dates => [1, 9, 7, 8], :name => "lola"})
       output = StringIO.new('')
