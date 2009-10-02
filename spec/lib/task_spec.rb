@@ -55,5 +55,14 @@ describe Mandy::Task do
       STDERR.should_receive(:puts).with("reporter:status:this is the status")
       Mandy::Task.new(input, output).send(:update_status, "this is the status")
     end
+    
+    it "writes counter updates to STDERR" do
+      # reporter:counter:<group>,<counter>,<amount>
+      input = ""
+      output = StringIO.new('')
+      
+      STDERR.should_receive(:puts).with("reporter:counter:group,counter,1")
+      Mandy::Task.new(input, output).send(:update_counter, "group", "counter", 1)
+    end
   end
 end

@@ -35,6 +35,10 @@ module Mandy
       STDERR.puts("reporter:status:#{message}")
     end
     
+    def update_counter(group, counter, count)
+      STDERR.puts("reporter:counter:#{group},#{counter},#{count}")
+    end
+    
     def parameter(name)
       return find_json_param(name) if json_provided?
       ENV[name.to_s]

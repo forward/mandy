@@ -27,6 +27,8 @@ job "Word Count" do
       next if word.size == 0
       words[word] ||= 0 
       words[word] += 1
+      
+      update_counter("Word counting", "No. of words processed", 1)
     end
     words.each {|word, count| emit(word, count) }
   end
