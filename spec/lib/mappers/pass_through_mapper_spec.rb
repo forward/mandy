@@ -13,13 +13,13 @@ describe Mandy::Mappers::PassThroughMapper do
   
   it "calls .map(key, value) with correct values" do
     @mapper.should_receive(:mapper).with('key1', 'value1')
-    @mapper.should_receive(:mapper).with(nil, 'key2, value2')
+    @mapper.should_receive(:mapper).with('key2, value2')
     @mapper.execute
   end
   
   it "outputs a key value pair when .emit(key, value) is called" do
     @output.should_receive(:puts).with("key1\tvalue1")
-    @output.should_receive(:puts).with("nil\tkey2, value2")
+    @output.should_receive(:puts).with("key2, value2")
     @mapper.execute
   end
   

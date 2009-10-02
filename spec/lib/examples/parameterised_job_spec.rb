@@ -14,6 +14,10 @@ describe "Parameterised example" do
     @runner = Mandy::TestRunner.new("Parameterised job", :parameters => {:argument => "hello world"})
   end
   
+  after(:all) do
+    Mandy::Job.jobs.delete_if { |job| job.name == "Parameterised job"}
+  end
+  
   describe "Mapper" do
     it "should emit parameter as value" do
       @runner.map("key\tvalue") do |mapper|
