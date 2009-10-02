@@ -57,12 +57,19 @@ describe Mandy::Task do
     end
     
     it "writes counter updates to STDERR" do
-      # reporter:counter:<group>,<counter>,<amount>
+      input = ""
+      output = StringIO.new('')
+      
+      STDERR.should_receive(:puts).with("reporter:counter:group,counter,2")
+      Mandy::Task.new(input, output).send(:increment_counter, "group", "counter", 2)
+    end
+    
+    it "defaults counter updates to 1" do
       input = ""
       output = StringIO.new('')
       
       STDERR.should_receive(:puts).with("reporter:counter:group,counter,1")
-      Mandy::Task.new(input, output).send(:update_counter, "group", "counter", 1)
+      Mandy::Task.new(input, output).send(:increment_counter, "group", "counter")
     end
   end
 end

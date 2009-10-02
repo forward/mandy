@@ -35,7 +35,7 @@ module Mandy
       STDERR.puts("reporter:status:#{message}")
     end
     
-    def update_counter(group, counter, count)
+    def increment_counter(group, counter, count=1)
       STDERR.puts("reporter:counter:#{group},#{counter},#{count}")
     end
     

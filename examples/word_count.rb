@@ -28,7 +28,7 @@ job "Word Count" do
       words[word] ||= 0 
       words[word] += 1
       
-      update_counter("Word counting", "No. of words processed", 1)
+      increment_counter("Word counting", "No. of words processed", 1)
     end
     words.each {|word, count| emit(word, count) }
   end
