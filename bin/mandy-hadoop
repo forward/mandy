@@ -50,14 +50,22 @@ filename = File.basename(file)
 input  = ARGV[1]
 output_folder = ARGV[2]
 config = options.config || 'cluster.xml'
-payload = options.payload ? Mandy::Packer.pack(options.payload, gemfile(options.gemfile)) : ARGV[0]
+puts "Packaging Gems for distribution..."
+payload = Mandy::Packer.pack(options.payload || ARGV[0], gemfile(options.gemfile))
 cmdenv = options.cmdenv
 
-at_exit { Mandy::Packer.cleanup!(payload) }
+at_exit do 
+  puts "Cleaning up..."
+  Mandy::Packer.cleanup!(payload)
+  puts "All done!"
+end
 
+puts "Loading Mandy scripts..."
 require absolute_path(file)
 
 output = nil
+
+puts "Sending jobs to Hadoop..."
 
 Mandy::Job.jobs.each_with_index do |job, i|
   
