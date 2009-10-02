@@ -3,6 +3,7 @@ module Mandy
     JSON_PAYLOAD_KEY = "json"
     KEY_VALUE_SEPERATOR = "\t" unless defined?(KEY_VALUE_SEPERATOR)
     NUMERIC_PADDING = 16
+    DEFAULT_COUNTER_GROUP = 'Mandy Counters'
     
     attr_reader :input_format, :output_format
     
@@ -36,8 +37,8 @@ module Mandy
     end
     
     def increment_counter(group, counter=nil, count=1)
-      group, counter = 'Mandy Counters', group if counter.nil?
-      group, counter, count = 'Mandy Counters', group, counter if counter.is_a?(Numeric)
+      group, counter = DEFAULT_COUNTER_GROUP, group if counter.nil?
+      group, counter, count = DEFAULT_COUNTER_GROUP, group, counter if counter.is_a?(Numeric)
       
       STDERR.puts("reporter:counter:#{group},#{counter},#{count}")
     end
