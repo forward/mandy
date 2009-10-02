@@ -35,7 +35,10 @@ module Mandy
       STDERR.puts("reporter:status:#{message}")
     end
     
-    def increment_counter(group, counter, count=1)
+    def increment_counter(group, counter=nil, count=1)
+      group, counter = 'Mandy Counters', group if counter.nil?
+      group, counter, count = 'Mandy Counters', group, counter if counter.is_a?(Numeric)
+      
       STDERR.puts("reporter:counter:#{group},#{counter},#{count}")
     end
     

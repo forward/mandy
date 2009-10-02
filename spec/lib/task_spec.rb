@@ -71,5 +71,13 @@ describe Mandy::Task do
       STDERR.should_receive(:puts).with("reporter:counter:group,counter,1")
       Mandy::Task.new(input, output).send(:increment_counter, "group", "counter")
     end
+    
+    it "defaults group name to Mandy Counters when only counter name provided" do
+      input = ""
+      output = StringIO.new('')
+      
+      STDERR.should_receive(:puts).with("reporter:counter:Mandy Counters,counter,2")
+      Mandy::Task.new(input, output).send(:increment_counter, "counter", 2)
+    end
   end
 end
