@@ -81,7 +81,7 @@ Mandy::Job.jobs.each_with_index do |job, i|
                   -reducer "ruby bootstrap.rb #{File.basename(payload)} reduce #{filename} '#{job.name}'"  \
                   -file "#{payload}" \
                   -file "#{bootstrap_file}" \
-                  -cmdenv #{cmdenv} \
+                  #{ cmdenv.nil? ? '' : "-cmdenv #{cmdenv}" }\
                   -output "#{output}")
 
   `#{command}`
