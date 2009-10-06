@@ -13,8 +13,8 @@ module Mandy
     end
 
     def emit(key, value=nil)
-      key = 'nil' if key.nil?
-      @output.puts(value.nil? ? key.to_s : "#{output_serialize_key(key)}\t#{output_serialize_value(value)}")
+      data = value.nil? ? key.to_s : "#{output_serialize_key(key)}\t#{output_serialize_value(value)}"
+      @output.puts(data)
     end
     
     def get(store, key)
