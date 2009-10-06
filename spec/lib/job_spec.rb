@@ -90,6 +90,7 @@ describe Mandy::Job do
       job = Mandy::Job.new("lola") do
         serialize Mandy::Serializers::Json
         input_format :plain
+        output_format :pants
 
         map do|k,v|
           emit(k, v.split(","))
