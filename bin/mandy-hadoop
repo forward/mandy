@@ -51,7 +51,7 @@ input  = ARGV[1]
 output_folder = ARGV[2]
 config = options.config || 'cluster.xml'
 puts "Packaging Gems for distribution..."
-payload = Mandy::Packer.pack(options.payload || ARGV[0], gemfile(options.gemfile))
+payload = Mandy::Packer.pack(file, options.payload || ARGV[0], gemfile(options.gemfile))
 cmdenv = options.cmdenv
 
 at_exit do 
