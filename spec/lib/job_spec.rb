@@ -7,6 +7,45 @@ module TestModule
 end
 
 describe Mandy::Job do
+  describe "Setup" do
+    it "allows maps to have setup blocks run before tasks execute" do
+      input, output = StringIO.new("testing"), StringIO.new("")
+      job = Mandy::Job.new("test1") do
+        setup do
+          @setup = "fake carl"
+          @reduce_setup = 'real carl'
+        end
+        
+        map do |k,v|
+          emit("hello", @setup)
+        end
+      end
+      
+      job.run_map(input, output)
+      
+      output.rewind
+      output.read.chomp.should == "hello\tfake carl"
+    end
+
+    it "allows reduces to have setup blocks run before tasks execute" do
+      input, output = StringIO.new("testing\t123"), StringIO.new("")
+      job = Mandy::Job.new("test1") do
+        setup do
+          @setup = "fake carl"
+        end
+        
+        reduce do |k,v|
+          emit("hello", @setup)
+        end
+      end
+      
+      job.run_reduce(input, output)
+      
+      output.rewind
+      output.read.chomp.should == "hello\tfake carl"
+    end
+  end
+  
   describe "store" do
     it "allows configuring a store" do
       Mandy.stores.clear

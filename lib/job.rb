@@ -57,14 +57,23 @@ module Mandy
       end
     end
     
+    # allows tasks to run setup blocks before they're executed
+    def setup(&blk)
+      @setup = blk
+    end
+    
     def map(klass=nil, &blk)
-      @mapper_class = klass || Mandy::Mappers::Base.compile(&blk)
+      args = {}
+      args[:setup] = @setup if @setup
+      @mapper_class = klass || Mandy::Mappers::Base.compile(args, &blk)
       @modules.each {|m| @mapper_class.send(:include, m) }
       @mapper_class
     end
     
     def reduce(klass=nil, &blk)
-      @reducer_class = klass || Mandy::Reducers::Base.compile(&blk)
+      args = {}
+      args[:setup] = @setup if @setup
+      @reducer_class = klass || Mandy::Reducers::Base.compile(args, &blk)
       @modules.each {|m| @reducer_class.send(:include, m) }
       @reducer_class
     end

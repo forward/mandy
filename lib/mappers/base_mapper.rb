@@ -3,15 +3,17 @@ module Mandy
     class Base < Mandy::Task
       include Mandy::IO::InputFormatting
 
-      def self.compile(&blk)
+      def self.compile(opts={}, &blk)
         Class.new(Mandy::Mappers::Base) do 
           self.class_eval do
             define_method(:mapper, blk) if blk
+            define_method(:setup, opts[:setup]) if opts[:setup]
           end
         end
       end
       
       def execute
+        setup if self.respond_to?(:setup)
         @input.each_line do |line|
            key, value = line.split(KEY_VALUE_SEPERATOR, 2)
            key, value = nil, key if value.nil?

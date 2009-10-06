@@ -22,12 +22,4 @@ describe Mandy::Reducers::PassThroughReducer do
     @reducer.execute
   end
   
-  
-  it "serializes array values" do
-    reducer = Mandy::Reducers::PassThroughReducer.compile { |k,v| emit('a', [1,2,3]) }
-    output = StringIO.new('')
-    reduce = reducer.new(StringIO.new("k\tv"), output)
-    output.should_receive(:puts).with("a\t1|2|3")
-    reduce.execute
-  end
 end
