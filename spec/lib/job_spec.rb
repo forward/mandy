@@ -26,6 +26,22 @@ describe Mandy::Job do
       output.rewind
       output.read.chomp.should == "hello\tfake carl"
     end
+    
+    it "allows maps to have teardown blocks run after tasks execute" do
+      SomeService = Class.new
+      SomeService.should_receive(:teardown!).once
+      
+      input, output = StringIO.new("testing"), StringIO.new("")
+      job = Mandy::Job.new("test1") do
+        teardown { SomeService.teardown! }
+        
+        map do |k,v|
+          emit("hello", @setup)
+        end
+      end
+      
+      job.run_map(input, output)
+    end
 
     it "allows reduces to have setup blocks run before tasks execute" do
       input, output = StringIO.new("testing\t123"), StringIO.new("")
@@ -43,6 +59,24 @@ describe Mandy::Job do
       
       output.rewind
       output.read.chomp.should == "hello\tfake carl"
+    end
+    
+    it "allows reduces to have teardown blocks run after tasks execute" do
+      SomeService = Class.new
+      SomeService.should_receive(:teardown!).once
+      
+      input, output = StringIO.new("testing\t123"), StringIO.new("")
+      job = Mandy::Job.new("test1") do
+        teardown do
+          SomeService.teardown!
+        end
+        
+        reduce do |k,v|
+          emit("hello", @setup)
+        end
+      end
+      
+      job.run_reduce(input, output)
     end
   end
   

@@ -8,6 +8,7 @@ module Mandy
           self.class_eval do
             define_method(:reducer, blk) if blk
             define_method(:setup, opts[:setup]) if opts[:setup]
+            define_method(:teardown, opts[:teardown]) if opts[:teardown]
           end
         end
       end
@@ -26,6 +27,7 @@ module Mandy
            values << value
         end
         reducer(deserialize_key(last_key), values.map {|v| deserialize_value(v) })
+        teardown if self.respond_to?(:teardown)
       end
     
       private

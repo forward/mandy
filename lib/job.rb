@@ -62,9 +62,14 @@ module Mandy
       @setup = blk
     end
     
+    def teardown(&blk)
+      @teardown = blk
+    end
+    
     def map(klass=nil, &blk)
       args = {}
       args[:setup] = @setup if @setup
+      args[:teardown] = @teardown if @teardown
       @mapper_class = klass || Mandy::Mappers::Base.compile(args, &blk)
       @modules.each {|m| @mapper_class.send(:include, m) }
       @mapper_class
@@ -73,6 +78,7 @@ module Mandy
     def reduce(klass=nil, &blk)
       args = {}
       args[:setup] = @setup if @setup
+      args[:teardown] = @teardown if @teardown
       @reducer_class = klass || Mandy::Reducers::Base.compile(args, &blk)
       @modules.each {|m| @reducer_class.send(:include, m) }
       @reducer_class
