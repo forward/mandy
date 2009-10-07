@@ -33,11 +33,11 @@ describe Mandy::Job do
       
       input, output = StringIO.new("testing"), StringIO.new("")
       job = Mandy::Job.new("test1") do
-        teardown { SomeService.teardown! }
-        
         map do |k,v|
           emit("hello", @setup)
         end
+
+        teardown { SomeService.teardown! }
       end
       
       job.run_map(input, output)
