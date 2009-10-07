@@ -29,11 +29,14 @@ def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end
 
-options.cmdenv.split(' ').each do |pair|
-  key, value = pair.split("=")
-  ENV[key] = value
+def set_env(opts_string)
+  opts_string.split(' ').each do |pair|
+    key, value = pair.split("=")
+    ENV[key] = value
+  end
 end
 
+set_env(options.cmdenv) if options.cmdenv 
 file   = absolute_path(ARGV[0])
 input  = absolute_path(ARGV[1])
 output_folder = FileUtils.mkdir_p(absolute_path(ARGV[2]))
