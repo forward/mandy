@@ -1,9 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 ENV['MANDY_PATH'] = File.join(File.dirname(__FILE__), *%w[.. .. .. lib mandy.rb])
 
-include Mandy::DSL
 
-job "Parameterised job" do
+Mandy.job "Parameterised job" do
   map do |key, value|
     emit(key, parameter(:argument))
   end

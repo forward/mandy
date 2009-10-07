@@ -1,10 +1,7 @@
 module Mandy
   module DSL
     def job(name, &blk)
-      job = Mandy::Job.new(name)
-      job.instance_eval(&blk) unless blk.nil?
-      Mandy::Job.jobs << job
-      job
+      raise "Mandy::DSL has been deprecated please use Mandy.job instead"
     end
   end
 end

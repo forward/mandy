@@ -7,12 +7,9 @@ else
   require "mandy"
 end
 
-# including Mandy::DSL adds the block methods used below to the global namespace, it's highly recommended.
-include Mandy::DSL
-
 # a job can consist of a map block, a reduce block or both along with some configuration options.
 # this job counts words in the input document.
-job "Word Count" do
+Mandy.job "Word Count" do
   map_tasks 5
   reduce_tasks 3
   
@@ -38,7 +35,7 @@ job "Word Count" do
 end
 
 # this job takes the output of the wordcount and draws a very simple histogram
-job "Histogram" do
+Mandy.job "Histogram" do
   map_tasks 5
   reduce_tasks 3
   
@@ -56,7 +53,7 @@ end
 
 # this job is pretty useless, it's just a pass though.
 # but it does mean we can take advantage of the map/reduce shuffle and get nicely ordered keys.
-job "Sort" do
+Mandy.job "Sort" do
   map_tasks 1
   reduce_tasks 1
 end

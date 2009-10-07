@@ -33,4 +33,13 @@ module Mandy
       @stores||={}
     end
   end
+  
+  
+  def job(name, &blk)
+    job = Mandy::Job.new(name)
+    job.instance_eval(&blk) unless blk.nil?
+    Mandy::Job.jobs << job
+    job
+  end
+  module_function :job
 end
