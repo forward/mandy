@@ -78,6 +78,28 @@ describe Mandy::Job do
       
       job.run_reduce(input, output)
     end
+    
+    it "adds setup block to class maps" do
+      class SomeMapper < Mandy::Mappers::Base
+        def setup
+          @something = "real carl"
+        end
+
+        def mapper(*args)
+          emit('hello', @something)
+        end
+      end
+      
+      input, output = StringIO.new("testing\t123"), StringIO.new("")
+      job = Mandy::Job.new("test1") do
+        map(SomeMapper)
+      end
+      
+      job.run_map(input, output)
+      
+      output.rewind
+      output.read.chomp.should == "hello\treal carl"
+    end
   end
   
   describe "store" do
