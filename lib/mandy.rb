@@ -1,6 +1,7 @@
 require "rubygems"
 require "json"
 require "uri"
+require "cgi"
 
 %w(
   support/formatting

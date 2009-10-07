@@ -3,7 +3,7 @@ require "rubygems"
 require "mandy"
 require 'optparse'
 require 'ostruct'
-require 'uri'
+require 'cgi'
 
 options = OpenStruct.new
 
@@ -23,7 +23,7 @@ OptionParser.new do |opts|
   end
   
   opts.on("-j", '--json {"key":"1 value"}', "Pass JSON encoded parameters to jobs") do |config|
-    options.cmdenv = "json=#{URI.encode(config)}"
+    options.cmdenv = "json=#{CGI.escape(config)}"
   end
   
   opts.on("-g", '--gemfile filepath', "Path to your jobs Gemfile (defaults to ./Gemfile)") do |config|
