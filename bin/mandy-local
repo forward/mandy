@@ -1,14 +1,37 @@
 #!/usr/bin/env ruby
+require 'optparse'
+require 'ostruct'
+require 'cgi'
 
-if ARGV.size==0
-  puts "USAGE: mandy-local my_script.rb local_input_file local_output_folder"
-  exit
-end
+
+options = OpenStruct.new
+
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-local my_script.rb local_input_file local_output_folder [options]"
+  
+  opts.on("-v", '--variables name=value', "Pass additional parameters to jobs") do |config|
+    options.cmdenv = config
+  end
+  
+  opts.on("-j", '--json {"key":"1 value"}', "Pass JSON encoded parameters to jobs") do |config|
+    options.cmdenv = "json=#{CGI.escape(config)}"
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
 
 require "fileutils"
 
 def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
+end
+
+options.cmdenv.split(' ').each do |pair|
+  key, value = pair.split("=")
+  ENV[key] = value
 end
 
 file   = absolute_path(ARGV[0])
