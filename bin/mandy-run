@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "mandy"
+require 'optparse'
+require 'ostruct'
+require 'json'
+
+options = OpenStruct.new
+
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-run script input [options]"
+
+  opts.on("-p", "--payload PAYLOAD", "Add a working directory to be sent to the cluster.") do |payload|
+    options.payload = payload
+  end
+
+  opts.on("-o", "--output OUTPUT", "Specify output path for your results.") do |payload|
+    options.payload = payload
+  end
+  
+  opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
+    options.config = config
+  end
+
+  opts.on("-j", '--json "{\"key\":\"1 value\"}"', "Pass JSON encoded parameters to jobs") do |config|
+    options.json = config
+  end
+
+  opts.on("-l", "--local", "Run script using mandy-local.") do
+    options.local = true
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+file   = ARGV[0]
+input  = File.new(ARGV[1])
+
+params = {}
+params[:output_file] = options.output if options.output
+params[:lib] = options.payload if options.payload
+params[:parameters] = JSON.parse(options.json) if options.json
+
+if options.local
+  require 'wrappers/mandy_local_wrapper'
+else
+  require 'wrappers/mandy_wrapper'
+  set_mandy_config options.config || 'cluster.xml'
+end
+
+output_file = run_mandy(file, input, params)
+
+puts "Results stored in: #{output_file}"

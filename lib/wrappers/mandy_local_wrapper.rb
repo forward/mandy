@@ -3,12 +3,11 @@ module Mandy
     module Wrapper
       SESSION_ID = Process.pid
   
-      def set_mandy_config(file_path)
-        @@config_path = file_path
-      end
-  
       def run_mandy(script, input_files, options = {})
         begin
+          #doing this will load all the mandy jobs in memory which will be useful later on
+          require script
+
           input_file = concat_input_files(input_files)
           output_file_path = run_mandy_local(script, input_file, options)
           return output_file_path unless block_given?
@@ -37,8 +36,9 @@ module Mandy
             FileUtils.cp(script, options[:lib])
             script = File.join(options[:lib], File.basename(script))
           end
-
-          output_file = `#{param_args} mandy-local #{script} #{input} #{generate_output_path}`
+          
+          output_path = options[:output_file] || generate_output_path
+          output_file = `#{param_args} mandy-local #{script} #{input} #{output_path}`
           output_file = output_file.split("\n").last
           output_file
         ensure
@@ -46,9 +46,10 @@ module Mandy
         end
     
         def generate_output_path
-          output_dir = "/tmp/mandy_test_output"
+          output_dir = "/tmp/mandy_local_output"
           FileUtils.mkdir_p(output_dir)
-          "#{output_dir}/#{SESSION_ID}"
+          file_name = Mandy::Job.jobs.last.name.downcase.gsub(/\W/, '-')
+          "#{output_dir}/#{file_name}_#{DateTime.now.strftime('%Y%m%d%H%M%S')}"
         end
     end
   end
