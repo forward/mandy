@@ -47,7 +47,7 @@ end
 at_exit do
   raise $! if $!
   caller = Kernel.caller.first.split(':').first
-  next if caller =~ /bin\/(rake|mandy-[a-z]+)$/
+  next if caller =~ /bin\/(rake|mandy)/
   input = Mandy.local_input || ENV['MANDY_INPUT']
   unless input
     print "Input file: "

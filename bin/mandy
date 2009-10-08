@@ -11,6 +11,7 @@ puts ''
   'mandy-install' => 'Installs the Mandy Rubygem on several hosts via ssh.',
   'mandy-local' => 'Run a Map/Reduce task locally without requiring hadoop',
   'mandy-hadoop' => 'Run a Map/Reduce task on hadoop using the provided cluster config',
+  'mandy-run' => 'Run an entire Map/Reduce workflow with one command',
   'mandy-rm' => 'remove a file or directory from HDFS',
   'mandy-put' => 'upload a file into HDFS',
   'mandy-map' => 'Run a map task reading on STDIN and writing to STDOUT',
