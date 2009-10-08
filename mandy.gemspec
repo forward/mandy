@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.3.11'
+  s.version = '0.3.12'
   s.date = '2009-10-05'
 
   s.description = "Map/Reduce"
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     mandy-reduce
     mandy-rm
     mandy-install
+    mandy-run
   ]
 
   # = MANIFEST =
@@ -35,6 +36,7 @@ Gem::Specification.new do |s|
     bin/mandy-get
     bin/mandy-put
     bin/mandy-reduce
+    bin/mandy-run
     readme.md
     Rakefile
     bootstrap.rb

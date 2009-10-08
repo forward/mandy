@@ -8,6 +8,9 @@ module Mandy
   
     def run_mandy(script, input_files, options = {})
       begin
+        #doing this will load all the mandy jobs in memory which will be useful later on
+        require script
+        
         hdfs_path = "#{self.class.to_s.split('::').join('-').downcase}/#{SESSION_ID}"
         put_files_on_hdfs(hdfs_path, input_files)
         run_mandy_hadoop(hdfs_path, script, options)
@@ -59,7 +62,8 @@ module Mandy
       def generate_output_path
         output_dir = "/tmp/mandy_output"
         FileUtils.mkdir_p(output_dir)
-        "#{output_dir}/#{SESSION_ID}"
+        file_name = Mandy::Job.jobs.last.name.downcase.gsub(/\W/, '-')
+        "#{output_dir}/#{file_name}_#{DateTime.now.strftime('%Y%m%d%H%M%S')}"
       end
       
       def get_hdfs_output(hdfs_output_path)
