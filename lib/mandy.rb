@@ -29,11 +29,11 @@ require "cgi"
 
 module Mandy
   class << self
+    attr_accessor :local_input
     def stores
       @stores||={}
     end
   end
-  
   
   def job(name, &blk)
     job = Mandy::Job.new(name)
@@ -42,4 +42,26 @@ module Mandy
     job
   end
   module_function :job
+end
+
+at_exit do
+  raise $! if $!
+  caller = Kernel.caller.first.split(':').first
+  next if caller =~ /bin\/(rake|mandy-[a-z]+)$/
+  input = Mandy.local_input || ENV['MANDY_INPUT']
+  unless input
+    print "Input file: "
+    input = gets.chomp
+  end
+  file  = caller
+  output_folder = FileUtils.mkdir_p("/tmp/mandy-local")
+  out = nil
+  Mandy::Job.jobs.each_with_index do |job, i|
+    out = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
+    puts "Running #{job.name}..."
+    `cat #{input} | mandy-map #{file} "#{job.name}" | sort | mandy-reduce #{file} "#{job.name}" > #{out}`
+    input = out
+  end
+
+  puts File.read(out)
 end
