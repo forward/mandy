@@ -26,7 +26,7 @@ end
 puts "\nYou are running Mandy!"
 puts "========================"
 puts
-puts "Using #{} located at #{`echo $HADOOP_HOME`}"
+puts "Using #{hadoop_version.split("\n").first} located at #{`echo $HADOOP_HOME`}"
 puts
 puts "Available Mandy Commands"
 puts '------------------------'
