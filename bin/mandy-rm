@@ -2,6 +2,9 @@
 require 'optparse'
 require 'ostruct'
 
+exec('mandy-rm -h') unless ARGV.size >= 1
+
+
 options = OpenStruct.new
 
 OptionParser.new do |opts|

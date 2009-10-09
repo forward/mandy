@@ -3,9 +3,33 @@
 require "rubygems"
 require "mandy"
 
+# Hadoop Home Detection
+hadoop_home = `echo $HADOOP_HOME`.chomp
+
+if hadoop_home== ''
+  puts "You need to set the HADOOP_HOME environment variable to point to your hadoop install    :("
+  puts "Try setting 'export HADOOP_HOME=/my/hadoop/path' in your ~/.profile maybe?"
+  exit(1)
+end
+
+# Hadoop Version Detection
+hadoop_version = `$HADOOP_HOME/bin/hadoop version 2>&1`
+
+if hadoop_version =~ /No such file or directory/
+  puts("Mandy failed to find Hadoop in #{hadoop_home}     :(")
+  puts
+  puts hadoop_version
+  exit(1)
+end
+
+# Status & Help Message
 puts "\nYou are running Mandy!"
-puts "Here are the commands at your disposal..."
-puts ''
+puts "========================"
+puts
+puts "Using #{} located at #{`echo $HADOOP_HOME`}"
+puts
+puts "Available Mandy Commands"
+puts '------------------------'
 
 {
   'mandy-install' => 'Installs the Mandy Rubygem on several hosts via ssh.',
@@ -17,6 +41,6 @@ puts ''
   'mandy-map' => 'Run a map task reading on STDIN and writing to STDOUT',
   'mandy-reduce' => 'Run a reduce task reading on STDIN and writing to STDOUT'
 }.each do |command, description|
-  
+
   puts "#{command.ljust(15)} #{description}"
 end

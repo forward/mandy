@@ -3,6 +3,7 @@ require 'optparse'
 require 'ostruct'
 require 'cgi'
 
+exec('mandy-local -h') unless ARGV.size >= 3
 
 options = OpenStruct.new
 

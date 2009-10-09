@@ -8,4 +8,8 @@ Run the word count example locally with...
 
     mandy-local examples/word_count.rb examples/alice.txt examples/output
 
+Mandy more examples can be found at http://github.com/trafficbroker/mandy-lab
+
+We are very light on documentation at the moment we are aware of the problem and are working hard to rectify it.
+
 Mandy is licensed under the MIT Licence, please see LICENCE for further information.
