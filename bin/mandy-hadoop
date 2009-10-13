@@ -5,8 +5,6 @@ require 'optparse'
 require 'ostruct'
 require 'cgi'
 
-exec('mandy-hadoop -h') unless ARGV.size >= 3
-
 options = OpenStruct.new
 
 OptionParser.new do |opts|
@@ -37,6 +35,8 @@ OptionParser.new do |opts|
     exit
   end
 end.parse!
+
+exec('mandy-hadoop -h') unless ARGV.size >= 3
 
 def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)

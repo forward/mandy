@@ -3,8 +3,6 @@ require 'optparse'
 require 'ostruct'
 require 'cgi'
 
-exec('mandy-local -h') unless ARGV.size >= 3
-
 options = OpenStruct.new
 
 OptionParser.new do |opts|
@@ -23,6 +21,8 @@ OptionParser.new do |opts|
     exit
   end
 end.parse!
+
+exec('mandy-local -h') unless ARGV.size >= 3
 
 require "fileutils"
 
