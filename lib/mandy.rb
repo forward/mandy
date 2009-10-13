@@ -30,6 +30,7 @@ require "cgi"
 module Mandy
   class << self
     attr_accessor :local_input
+    attr_accessor :autorun
     def stores
       @stores||={}
     end
@@ -44,9 +45,12 @@ module Mandy
   module_function :job
 end
 
+Mandy.autorun = true
+
 at_exit do
   raise $! if $!
   caller = Kernel.caller.first
+  next unless Mandy.autorun
   next if caller.nil?
   caller = caller.split(':').first
   next if caller =~ /bin\/(rake|mandy)/
