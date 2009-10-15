@@ -77,12 +77,11 @@ Mandy::Job.jobs.each_with_index do |job, i|
   bootstrap_file = File.expand_path(File.join(File.dirname(__FILE__), '..', 'bootstrap.rb'))
   
   command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar #{jobconf}\
+                  -files "#{payload}","#{bootstrap_file}" \
                   -conf '#{config}' \
                   -input "#{input}"  \
                   -mapper "ruby bootstrap.rb #{File.basename(payload)} map #{filename} '#{job.name}'"  \
                   -reducer "ruby bootstrap.rb #{File.basename(payload)} reduce #{filename} '#{job.name}'"  \
-                  -file "#{payload}" \
-                  -file "#{bootstrap_file}" \
                   #{ cmdenv.nil? ? '' : "-cmdenv #{cmdenv}" }\
                   -output "#{output}")
 
