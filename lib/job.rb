@@ -12,7 +12,8 @@ module Mandy
     
     attr_reader :settings
     attr_reader :name
-    
+    attr_reader :input_format_options
+
     def initialize(name, &blk)
       @name = name
       @settings = {}
@@ -25,11 +26,14 @@ module Mandy
       modules.each {|m| @modules << m}
     end
     alias_method :serialize, :mixin
-    
-    def input_format(format)
-      @input_format = format
-    end
 
+    def input_format(format=nil, options={})
+      return @input_format if format.nil?
+      
+      @input_format = format
+      @input_format_options = options
+    end
+    
     def output_format(format)
       @output_format = format
     end
