@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'mandy'
 
-Mandy.local_input = File.join(File.dirname(__FILE__), 'alice.txt')
+Mandy.local_input = File.join(File.dirname(__FILE__), 'alice.txt1')
 
 Mandy.job "Grep" do
   map_tasks 5

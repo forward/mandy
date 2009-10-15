@@ -57,7 +57,10 @@ at_exit do
   input = Mandy.local_input || ENV['MANDY_INPUT']
   unless input
     print "Input file: "
-    input = gets.chomp
+    input = (gets || '').chomp
+  end
+  if input.nil? or input.size==0 or !File.exists?(input)
+    raise "Input file #{input.nil? or input.size==0 ? 'was not provided' : "'#{input}' does not exist"}! Try specifying 'Mandy.local_input=' or if Mandy has launched by mistake then set 'Mandy.autorun = false' to avoid this check."
   end
   file  = caller
   output_folder = FileUtils.mkdir_p("/tmp/mandy-local")
