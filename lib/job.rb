@@ -18,8 +18,10 @@ module Mandy
       @name = name
       @settings = {}
       @modules = []
+      @map, @reduce = nil, nil
       set('mapred.job.name', name)
       instance_eval(&blk) if blk
+      auto_set_reduce_count
     end
     
     def mixin(*modules)
@@ -88,7 +90,16 @@ module Mandy
       reducer.execute
     end
     
+    def reducer_defined?
+      !@reduce.nil?
+    end
+    
     private
+    
+    def auto_set_reduce_count
+      return if settings.has_key?('mapred.reduce.tasks')
+      reduce_tasks(reducer_defined? ? 1 : 0)
+    end
 
     def mapper_class
       return Mandy::Mappers::PassThroughMapper unless @map
@@ -116,10 +127,6 @@ module Mandy
       @reducer_class = @reduce.is_a?(Proc) ? Mandy::Reducers::Base.compile(args, &@reduce) : @reduce
       @modules.each {|m| @reducer_class.send(:include, m) }
       @reducer_class
-    end
-            
-    def reducer_defined?
-      reducer_class != Mandy::Reducers::PassThroughReducer
     end
     
   end

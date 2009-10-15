@@ -7,6 +7,8 @@ else
   require "mandy"
 end
 
+Mandy.local_input = File.join(File.dirname(__FILE__), 'alice.txt')
+
 # a job can consist of a map block, a reduce block or both along with some configuration options.
 # this job counts words in the input document.
 Mandy.job "Word Count" do

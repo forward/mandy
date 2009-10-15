@@ -65,7 +65,8 @@ at_exit do
   Mandy::Job.jobs.each_with_index do |job, i|
     out = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
     puts "Running #{job.name}..."
-    `cat #{input} | mandy-map #{file} "#{job.name}" | sort | mandy-reduce #{file} "#{job.name}" > #{out}`
+    reduce_phase = job.reducer_defined? ? %(| sort | mandy-reduce #{file} "#{job.name}") : ''
+    `cat #{input} | mandy-map #{file} "#{job.name}" #{reduce_phase} > #{out}`
     input = out
   end
 

@@ -7,6 +7,46 @@ module TestModule
 end
 
 describe Mandy::Job do
+  
+  describe "map only jobs" do
+    it "should allow map only jobs to run" do
+      input, output = StringIO.new("carl"), StringIO.new("")
+      job = Mandy::Job.new("test1") do
+        map do |name|
+          emit("hello #{name}")
+        end
+      end
+
+      job.run_map(input, output)
+
+      output.rewind
+      output.read.chomp.should == "hello carl"
+    end  
+    
+    it "should set reducers to 0 if none is provided" do
+      job = Mandy::Job.new("test1") do
+        map {}
+      end
+      job.settings['mapred.reduce.tasks'].should == '0'
+    end  
+    
+    it "should set reducers to 1 if it is provided" do
+      job = Mandy::Job.new("test1") do
+        map {}
+        reduce {}
+      end
+      job.settings['mapred.reduce.tasks'].should == '1'
+    end  
+
+    it "should not override reduce_tasks if it is set" do
+      job = Mandy::Job.new("test1") do
+        reduce_tasks 3
+        map {}
+      end
+      job.settings['mapred.reduce.tasks'].should == '3'
+    end
+  end
+  
   describe "Setup" do
     it "allows maps to have setup blocks run before tasks execute" do
       input, output = StringIO.new("testing"), StringIO.new("")
