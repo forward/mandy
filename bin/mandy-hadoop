@@ -75,10 +75,12 @@ Mandy::Job.jobs.each_with_index do |job, i|
   output = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
   
   bootstrap_file = File.expand_path(File.join(File.dirname(__FILE__), '..', 'bootstrap.rb'))
+  inputreader = job.input_format == :xml ? "StreamXmlRecordReader,begin=<#{job.input_format_options[:xml_tag]} ,end=</#{job.input_format_options[:xml_tag]}>" : nil
   
   command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar #{jobconf}\
                   -conf '#{config}' \
                   -input "#{input}"  \
+                  #{ inputreader.nil? ? '' : "-inputreader \"#{inputreader}\"" } \
                   -mapper "ruby bootstrap.rb #{File.basename(payload)} map #{filename} '#{job.name}'"  \
                   -reducer "ruby bootstrap.rb #{File.basename(payload)} reduce #{filename} '#{job.name}'"  \
                   -file "#{payload}" \

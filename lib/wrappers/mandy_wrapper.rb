@@ -27,7 +27,7 @@ module Mandy
       def put_files_on_hdfs(hdfs_path, input_files)
         input_files = [input_files] unless input_files.is_a?(Array)
         input_files.each do |input_file|
-          input_file_path = File.expand_path(input_file.path)
+          input_file_path = input_file.is_a?(File) ? File.expand_path(input_file.path) : input_file
           base_filename = input_file_path.split("/").last
           dest_file = ["input/#{hdfs_path}", base_filename].join("/")
           run_command "mandy-put #{input_file_path} #{dest_file}"
