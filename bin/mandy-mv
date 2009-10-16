@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'ostruct'
+
+exec('mandy-mv -h') unless ARGV.size >= 2
+
+
+options = OpenStruct.new
+
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-mv source destination [options]"
+
+  opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
+    options.config = config
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+source = ARGV[0]
+destination = ARGV[1]
+config = options.config || 'cluster.xml'
+
+`$HADOOP_HOME/bin/hadoop fs -conf #{config} -mv #{source} #{destination}`
