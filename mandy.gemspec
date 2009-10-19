@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.4.83'
+  s.version = '0.4.84'
   s.date = '2009-10-19'
 
   s.description = "Map/Reduce"
@@ -30,7 +30,6 @@ Gem::Specification.new do |s|
     mandy-mkdir
     mandy-exists
     mandy-install
-    mandy-run
   ]
 
   # = MANIFEST =
@@ -73,8 +72,6 @@ Gem::Specification.new do |s|
     lib/ruby-hbase/version.rb
     lib/ruby-hbase/xml_decoder.rb
     lib/test_runner.rb
-    lib/wrappers/mandy_wrapper.rb
-    lib/wrappers/mandy_local_wrapper.rb
   ]
   # = MANIFEST =
   
