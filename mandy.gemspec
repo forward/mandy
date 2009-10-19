@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.4.8'
+  s.version = '0.4.81'
   s.date = '2009-10-19'
 
   s.description = "Map/Reduce"
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     mandy-reduce
     mandy-rm
     mandy-mv
+    mandy-cp
     mandy-mkdir
     mandy-exists
     mandy-install
