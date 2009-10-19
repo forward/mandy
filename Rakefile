@@ -10,8 +10,13 @@ Spec::Rake::SpecTask.new(:spec) do |t|
   t.spec_opts = %w{-f s -c -L mtime}
 end
 
-task :gem do
-  `sudo gem build mandy.gemspec`
+task :build do
+  `gem build mandy.gemspec`
   `mkdir pkg; mv mandy-*.gem pkg/`
+end
+
+task :install do
   `sudo gem install pkg/mandy-*.gem`
 end
+
+task :gem => [:build, :install]

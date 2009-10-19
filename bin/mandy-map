@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+throw File.dirname(__FILE__)
 environment = File.expand_path(File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'environment.rb'))
 require File.exist?(environment) ? environment : "rubygems"
 require "mandy"
