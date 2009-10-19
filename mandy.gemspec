@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.4.7'
-  s.date = '2009-10-16'
+  s.version = '0.4.8'
+  s.date = '2009-10-19'
 
   s.description = "Map/Reduce"
   s.summary     = "Map/Reduce"
@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.email = "andy.kent@me.com"
   
   s.add_dependency("bundler")
+  s.add_dependency("json")
   
   s.executables = %w[
     mandy
@@ -25,6 +26,7 @@ Gem::Specification.new do |s|
     mandy-reduce
     mandy-rm
     mandy-mv
+    mandy-mkdir
     mandy-exists
     mandy-install
     mandy-run
