@@ -11,6 +11,7 @@ require "cgi"
   packer
   support/tuple 
   support/array_serializer 
+  support/hdfs_location 
   mappers/base_mapper 
   mappers/transpose_mapper 
   mappers/pass_through_mapper 

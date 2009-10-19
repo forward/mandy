@@ -40,7 +40,6 @@ Gem::Specification.new do |s|
     bin/mandy-get
     bin/mandy-put
     bin/mandy-reduce
-    bin/mandy-run
     readme.md
     Rakefile
     bootstrap.rb
