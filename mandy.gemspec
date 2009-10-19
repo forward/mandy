@@ -34,17 +34,23 @@ Gem::Specification.new do |s|
 
   # = MANIFEST =
   s.files = %w[
+    bin/mandy
     bin/mandy-hadoop
     bin/mandy-local
     bin/mandy-map
+    bin/mandy-put
     bin/mandy-get
     bin/mandy-cat
-    bin/mandy-put
     bin/mandy-reduce
+    bin/mandy-rm
+    bin/mandy-mv
+    bin/mandy-cp
+    bin/mandy-mkdir
+    bin/mandy-exists
+    bin/mandy-install
     readme.md
     Rakefile
     bootstrap.rb
-    Gemfile
     lib/mandy.rb
     lib/support/tuple.rb
     lib/support/formatting.rb
