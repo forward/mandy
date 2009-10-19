@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.4.92'
+  s.version = File.read(File.join(File.dirname(__FILE__),'VERSION'))
   s.date = '2009-10-19'
 
   s.description = "Map/Reduce"
@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.authors = ["Andy Kent", "Paul Ingles"]
   s.email = "andy.kent@me.com"
   
-  s.add_dependency("bundler")
   s.add_dependency("json")
 
   s.executables = %w[

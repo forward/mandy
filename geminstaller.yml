@@ -1,0 +1,5 @@
+gems:
+- name: mandy
+  install_options: --source http://gemcutter.org
+  version: ==<%= File.read(File.expand_path(File.join(File.dirname(__FILE__),'VERSION')))%>
+<%= include_config(File.expand_path(File.join(File.dirname(__FILE__), 'gems.yml'))) if File.exists?(File.expand_path(File.join(File.dirname(__FILE__), 'gems.yml'))) %>

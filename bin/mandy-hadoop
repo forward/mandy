@@ -26,7 +26,7 @@ OptionParser.new do |opts|
     options.cmdenv = "json=#{CGI.escape(config)}"
   end
   
-  opts.on("-g", '--gemfile filepath', "Path to your jobs Gemfile (defaults to ./Gemfile)") do |config|
+  opts.on("-g", '--gemfile filepath', "Path to your jobs gem yml file (defaults to ./gems.yml)") do |config|
     options.gemfile = config
   end
   
@@ -43,8 +43,8 @@ def absolute_path(path)
 end
 
 def gemfile(file)
-  path = absolute_path(file || 'Gemfile')
-  File.exist?(path) ? path : File.expand_path(File.join(File.dirname(__FILE__), '..', 'Gemfile'))
+  path = absolute_path(file || 'gems.yml')
+  File.exist?(path) ? path : nil
 end
 
 file   = ARGV[0]
