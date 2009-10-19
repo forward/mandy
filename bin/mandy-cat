@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'ostruct'
+
+exec('mandy-cat -h') unless ARGV.size >= 2
+
+options = OpenStruct.new
+
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-cat hdfs_path [options]"
+
+  opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
+    options.config = config
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+
+def absolute_path(path)
+  path =~ /^\// ? path : File.join(Dir.pwd, path)
+end
+
+hdfs_path = ARGV[0]
+config = absolute_path(options.config || 'cluster.xml')
+
+exec("$HADOOP_HOME/bin/hadoop fs -conf #{config} -cat #{hdfs_path}")

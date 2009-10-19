@@ -11,8 +11,11 @@ module Mandy
       FileUtils.cp_r(script, tmp_path)
       FileUtils.cp_r(Dir.glob(to_be_copied), tmp_path)
       FileUtils.cp_r(gemfile, tmp_path)
-      Dir.chdir(tmp_path) { `gem bundle` }
-      Dir.chdir(tmp_path) { `tar -cf bundle.tar *` }
+      Dir.chdir(tmp_path) do 
+        `gem bundle`
+        `rm -r vendor/gems/gems`
+        `tar -cf bundle.tar *`
+      end
       File.join(tmp_path, 'bundle.tar')
     end
     

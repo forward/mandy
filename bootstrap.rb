@@ -5,6 +5,7 @@ module Mandy
     def self.unpack(file)
       return false unless File.extname(file) == '.tar'
       `tar -xf #{file}`
+      `gem bundle`
     end
   end
 end
