@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.4.84'
+  s.version = '0.4.85'
   s.date = '2009-10-19'
 
   s.description = "Map/Reduce"
