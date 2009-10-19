@@ -6,14 +6,16 @@ module Mandy
       @@config_path = file_path
     end
   
-    def run_mandy(script, input_files, options = {})
+    def run_mandy(script, inputs, options = {})
       begin
         #doing this will load all the mandy jobs in memory which will be useful later on
         require script
+        inputs = [inputs] unless inputs.is_a?(Array)
         
-        hdfs_path = "#{self.class.to_s.split('::').join('-').downcase}/#{SESSION_ID}"
-        put_files_on_hdfs(hdfs_path, input_files)
-        run_mandy_hadoop(hdfs_path, script, options)
+        hdfs_input = inputs.all? {|i| i.is_a?(File)} ? process_files(inputs) : process_hdfs_locations(inputs)
+        
+        run_mandy_hadoop(hdfs_input, script, options)
+        
         output_file_path = get_file_from_hdfs(hdfs_path, options)
         return output_file_path unless block_given?
         #if a block is given then yield the output file path and then delete this file before returning
@@ -24,8 +26,23 @@ module Mandy
     end
   
     private
+      def process_files(input_files)
+        hdfs_path = "#{self.class.to_s.split('::').join('-').downcase}/#{SESSION_ID}"
+        put_files_on_hdfs(hdfs_path, input_files)
+        hdfs_path
+      end
+      
+      def process_locations(input_locations)
+        return input_locations.first if input_locations.size == 1
+        
+        hdfs_path = "#{self.class.to_s.split('::').join('-').downcase}/#{SESSION_ID}"
+        input_locations.each_with_index do |location, index|
+          run_command "mandy-cp #{location} #{hdfs_path}/input#{index}"
+        end
+        hdfs_path
+      end
+    
       def put_files_on_hdfs(hdfs_path, input_files)
-        input_files = [input_files] unless input_files.is_a?(Array)
         input_files.each do |input_file|
           input_file_path = input_file.is_a?(File) ? File.expand_path(input_file.path) : input_file
           base_filename = input_file_path.split("/").last
