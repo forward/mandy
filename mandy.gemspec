@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email = "andy.kent@me.com"
   
   s.add_dependency("bundler")
-  s.add_dependency("json")
+  #s.add_dependency("json")
   
   s.executables = %w[
     mandy
