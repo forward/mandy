@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/trafficbroker/mandy"
 
   s.name = 'mandy'
-  s.version = '0.4.85'
+  s.version = '0.4.86'
   s.date = '2009-10-19'
 
   s.description = "Map/Reduce"
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
     mandy-map
     mandy-put
     mandy-get
+    mandy-cat
     mandy-reduce
     mandy-rm
     mandy-mv
@@ -38,6 +39,7 @@ Gem::Specification.new do |s|
     bin/mandy-local
     bin/mandy-map
     bin/mandy-get
+    bin/mandy-cat
     bin/mandy-put
     bin/mandy-reduce
     readme.md
