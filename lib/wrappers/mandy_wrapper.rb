@@ -32,7 +32,7 @@ module Mandy
         hdfs_path
       end
       
-      def process_locations(input_locations)
+      def process_hdfs_locations(input_locations)
         return input_locations.first if input_locations.size == 1
         
         hdfs_path = "#{self.class.to_s.split('::').join('-').downcase}/#{SESSION_ID}"
