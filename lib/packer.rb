@@ -11,8 +11,11 @@ module Mandy
       to_be_copied = File.file?(dir) ? dir : File.join(dir, '*')
       FileUtils.cp(script, tmp_path)
       FileUtils.cp_r(Dir.glob(to_be_copied), tmp_path)
-      FileUtils.cp(File.join(MANDY_DIR, 'geminstaller.yml'), tmp_path)
-      FileUtils.cp(gemfile, File.join(tmp_path, 'gems.yml')) if gemfile and File.exists?(gemfile)
+      if gemfile and File.exists?(gemfile)
+        FileUtils.cp(gemfile, File.join(tmp_path, 'geminstaller.yml')) 
+      else
+          FileUtils.cp(File.join(MANDY_DIR, 'geminstaller.yml'), tmp_path)
+      end
       Dir.chdir(tmp_path) { `tar -cf bundle.tar *` }
       File.join(tmp_path, 'bundle.tar')
     end
