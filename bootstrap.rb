@@ -12,4 +12,4 @@ end
 
 Mandy::Packer.unpack(ARGV[0])
 
-exec("bin/mandy-#{ARGV[1]} #{ARGV[2]} '#{ARGV[3]}'")
+exec("mandy-#{ARGV[1]} #{ARGV[2]} '#{ARGV[3]}'")

@@ -48,9 +48,11 @@ Gem::Specification.new do |s|
     bin/mandy-mkdir
     bin/mandy-exists
     bin/mandy-install
+    VERSION
     readme.md
     Rakefile
     bootstrap.rb
+    geminstaller.yml
     lib/mandy.rb
     lib/support/tuple.rb
     lib/support/formatting.rb
