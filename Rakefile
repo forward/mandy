@@ -17,7 +17,7 @@ namespace :gem do
   end
 
   task :install => :build do
-    `sudo gem install pkg/mandy-*.gem`
+    `sudo gem install pkg/mandy-*.gem --no-rdoc --no-ri`
   end
   
   task :push => :build do

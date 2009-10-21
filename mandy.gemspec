@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.version = File.read(File.join(File.dirname(__FILE__),'VERSION'))
   s.date = '2009-10-19'
 
-  s.description = "Map/Reduce"
-  s.summary     = "Map/Reduce"
+  s.description = "Mandy is Ruby Map/Reduce Framework built onto of the Hadoop Distributed computing platform."
+  s.summary     = "Map/Reduce Framework"
 
   s.authors = ["Andy Kent", "Paul Ingles"]
   s.email = "andy.kent@me.com"
@@ -53,6 +53,7 @@ Gem::Specification.new do |s|
     Rakefile
     bootstrap.rb
     geminstaller.yml
+    lib/errors.rb
     lib/mandy.rb
     lib/support/tuple.rb
     lib/support/formatting.rb

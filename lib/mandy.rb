@@ -26,6 +26,7 @@ require "cgi"
   stores/in_memory
   test_runner
   ruby-hbase
+  errors
 ).each {|file| require File.join(File.dirname(__FILE__), file) }
 
 module Mandy

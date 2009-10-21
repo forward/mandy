@@ -56,7 +56,7 @@ puts "Packaging Gems for distribution..."
 payload = Mandy::Packer.pack(file, options.payload || ARGV[0], gemfile(options.gemfile))
 cmdenv = options.cmdenv
 
-at_exit do 
+at_exit do
   puts "Cleaning up..."
   Mandy::Packer.cleanup!(payload)
   puts "All done!"
@@ -66,32 +66,35 @@ puts "Loading Mandy scripts..."
 require absolute_path(file)
 
 output = nil
-
-puts "Sending jobs to Hadoop..."
-
-Mandy::Job.jobs.each_with_index do |job, i|
+begin
+  Mandy::Job.jobs.each_with_index do |job, i|
+    puts "Running Job [#{i+1}] #{job.name}..."
+    
+    jobconf = job.settings.map { |key, value| %(-D #{key}='#{value}') }.join(' ')
+    output = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
   
-  jobconf = job.settings.map { |key, value| %(-D #{key}='#{value}') }.join(' ')
-  output = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
+    bootstrap_file = File.expand_path(File.join(File.dirname(__FILE__), '..', 'bootstrap.rb'))
+    inputreader = job.input_format == :xml ? "StreamXmlRecordReader,begin=<#{job.input_format_options[:xml_tag]} ,end=</#{job.input_format_options[:xml_tag]}>" : nil
   
-  bootstrap_file = File.expand_path(File.join(File.dirname(__FILE__), '..', 'bootstrap.rb'))
-  inputreader = job.input_format == :xml ? "StreamXmlRecordReader,begin=<#{job.input_format_options[:xml_tag]} ,end=</#{job.input_format_options[:xml_tag]}>" : nil
-  
-  command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar #{jobconf}\
-                  -files "#{payload}","#{bootstrap_file}" \
-                  -conf '#{config}' \
-                  -input "#{input}"  \
-                  #{ inputreader.nil? ? '' : "-inputreader \"#{inputreader}\"" } \
-                  -mapper "ruby bootstrap.rb #{File.basename(payload)} map #{filename} '#{job.name}'"  \
-                  -reducer "ruby bootstrap.rb #{File.basename(payload)} reduce #{filename} '#{job.name}'"  \
-                  #{ cmdenv.nil? ? '' : "-cmdenv #{cmdenv}" }\
-                  -output "#{output}")
+    command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar #{jobconf}\
+                    -files "#{payload}","#{bootstrap_file}" \
+                    -conf '#{config}' \
+                    -input "#{input}"  \
+                    #{ inputreader.nil? ? '' : "-inputreader \"#{inputreader}\"" } \
+                    -mapper "ruby bootstrap.rb #{File.basename(payload)} map #{filename} '#{job.name}'"  \
+                    -reducer "ruby bootstrap.rb #{File.basename(payload)} reduce #{filename} '#{job.name}'"  \
+                    #{ cmdenv.nil? ? '' : "-cmdenv #{cmdenv}" }\
+                    -output "#{output}" 2>&1)
 
-  `#{command}`
+    result = `#{command}`
+    raise(Mandy::HadoopJobFailure.new(job, result)) unless $?.to_i==0
 
-  # puts "#{command}"
-  input = output
+    # puts "#{command}"
+    input = output
+  end
+  # print out the output location so caller can know where to get the results from
+  puts output
+rescue Mandy::HadoopJobFailure => e
+  STDERR.puts e.to_s
+  exit(1)
 end
-
-# print out the output location so caller can know where to get the results from
-puts output
