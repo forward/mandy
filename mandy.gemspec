@@ -53,8 +53,8 @@ Gem::Specification.new do |s|
     Rakefile
     bootstrap.rb
     geminstaller.yml
+    lib/mandy.rb
     lib/mandy/errors.rb
-    lib/mandy/mandy.rb
     lib/mandy/support/tuple.rb
     lib/mandy/support/formatting.rb
     lib/mandy/support/array_serializer.rb
