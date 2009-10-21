@@ -53,34 +53,34 @@ Gem::Specification.new do |s|
     Rakefile
     bootstrap.rb
     geminstaller.yml
-    lib/errors.rb
-    lib/mandy.rb
-    lib/support/tuple.rb
-    lib/support/formatting.rb
-    lib/support/array_serializer.rb
-    lib/support/hdfs_location.rb
-    lib/task.rb
-    lib/dsl.rb
-    lib/job.rb
-    lib/mappers/base_mapper.rb
-    lib/mappers/transpose_mapper.rb
-    lib/mappers/pass_through_mapper.rb
-    lib/packer.rb
-    lib/reducers/base_reducer.rb
-    lib/reducers/transpose_reducer.rb
-    lib/reducers/pass_through_reducer.rb
-    lib/reducers/sum_reducer.rb
-    lib/reducers/max_reducer.rb
-    lib/reducers/min_reducer.rb
-    lib/serializers/json.rb
-    lib/stores/hbase.rb
-    lib/stores/in_memory.rb
-    lib/ruby-hbase.rb
-    lib/ruby-hbase/hbase_table.rb
-    lib/ruby-hbase/scanner.rb
-    lib/ruby-hbase/version.rb
-    lib/ruby-hbase/xml_decoder.rb
-    lib/test_runner.rb
+    lib/mandy/errors.rb
+    lib/mandy/mandy.rb
+    lib/mandy/support/tuple.rb
+    lib/mandy/support/formatting.rb
+    lib/mandy/support/array_serializer.rb
+    lib/mandy/support/hdfs_location.rb
+    lib/mandy/task.rb
+    lib/mandy/dsl.rb
+    lib/mandy/job.rb
+    lib/mandy/mappers/base_mapper.rb
+    lib/mandy/mappers/transpose_mapper.rb
+    lib/mandy/mappers/pass_through_mapper.rb
+    lib/mandy/packer.rb
+    lib/mandy/reducers/base_reducer.rb
+    lib/mandy/reducers/transpose_reducer.rb
+    lib/mandy/reducers/pass_through_reducer.rb
+    lib/mandy/reducers/sum_reducer.rb
+    lib/mandy/reducers/max_reducer.rb
+    lib/mandy/reducers/min_reducer.rb
+    lib/mandy/serializers/json.rb
+    lib/mandy/stores/hbase.rb
+    lib/mandy/stores/in_memory.rb
+    lib/mandy/ruby-hbase.rb
+    lib/mandy/ruby-hbase/hbase_table.rb
+    lib/mandy/ruby-hbase/scanner.rb
+    lib/mandy/ruby-hbase/version.rb
+    lib/mandy/ruby-hbase/xml_decoder.rb
+    lib/mandy/test_runner.rb
   ]
   # = MANIFEST =
   

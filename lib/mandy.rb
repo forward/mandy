@@ -27,7 +27,7 @@ require "cgi"
   test_runner
   ruby-hbase
   errors
-).each {|file| require File.join(File.dirname(__FILE__), file) }
+).each {|file| require File.join(File.dirname(__FILE__), 'mandy', file) }
 
 module Mandy
   class << self

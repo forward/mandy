@@ -3,7 +3,7 @@ require "fileutils"
 module Mandy
   class Packer
     TMP_DIR = '/tmp/mandy'
-    MANDY_DIR = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+    MANDY_DIR = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
     
     def self.pack(script, dir, gemfile=nil)
       tmp_path = "#{TMP_DIR}/packed-job-#{Time.now.to_i}"
