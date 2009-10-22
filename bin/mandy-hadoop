@@ -49,7 +49,9 @@ end
 
 file   = ARGV[0]
 filename = File.basename(file)
-input  = ARGV[1]
+inputs  = ARGV[1].split(",")
+input = inputs.map {|path| "-input \"#{path}\""}.join(" ")
+
 output_folder = ARGV[2]
 config = options.config || 'cluster.xml'
 puts "Packaging Gems for distribution..."
@@ -79,7 +81,7 @@ begin
     command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop-*-streaming.jar #{jobconf}\
                     -files "#{payload}","#{bootstrap_file}" \
                     -conf '#{config}' \
-                    -input "#{input}"  \
+                    #{input} \
                     #{ inputreader.nil? ? '' : "-inputreader \"#{inputreader}\"" } \
                     -mapper "ruby bootstrap.rb #{File.basename(payload)} map #{filename} '#{job.name}'"  \
                     -reducer "ruby bootstrap.rb #{File.basename(payload)} reduce #{filename} '#{job.name}'"  \
