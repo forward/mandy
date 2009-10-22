@@ -39,7 +39,7 @@ end
 
 set_env(options.cmdenv) if options.cmdenv 
 file   = absolute_path(ARGV[0])
-input  = absolute_path(ARGV[1])
+input  = ARGV[1].split(",").map {|f| absolute_path(f)}.join(" ")
 output_folder = FileUtils.mkdir_p(absolute_path(ARGV[2]))
 require file
 
