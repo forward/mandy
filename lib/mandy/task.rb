@@ -1,6 +1,5 @@
 module Mandy
   class Task
-    JSON_PAYLOAD_KEY = "json"
     KEY_VALUE_SEPERATOR = "\t" unless defined?(KEY_VALUE_SEPERATOR)
     NUMERIC_PADDING = 16
     DEFAULT_COUNTER_GROUP = 'Mandy Counters'
@@ -14,7 +13,7 @@ module Mandy
 
     def emit(key, value=nil)
       data = value.nil? ? key.to_s : "#{output_serialize_key(key)}\t#{output_serialize_value(value)}"
-      @output.puts(data)
+      @output.puts data.chomp
     end
     
     def get(store, key)
@@ -44,17 +43,7 @@ module Mandy
     end
     
     def parameter(name)
-      return find_json_param(name) if json_provided?
-      ENV[name.to_s]
-    end
-    
-    def find_json_param(name)
-      @json_args ||= JSON.parse(CGI.unescape(ENV[JSON_PAYLOAD_KEY]))
-      @json_args[name.to_s]
-    end
-    
-    def json_provided?
-      !ENV[JSON_PAYLOAD_KEY].nil?
+      Job.parameter(name)
     end
     
     def deserialize_key(key)

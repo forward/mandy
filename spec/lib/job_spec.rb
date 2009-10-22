@@ -10,7 +10,7 @@ describe Mandy::Job do
   
   describe "map only jobs" do
     it "should allow map only jobs to run" do
-      input, output = StringIO.new("carl"), StringIO.new("")
+      input, output = StringIO.new("carl\nandy"), StringIO.new("")
       job = Mandy::Job.new("test1") do
         map do |name|
           emit("hello #{name}")
@@ -20,7 +20,7 @@ describe Mandy::Job do
       job.run_map(input, output)
 
       output.rewind
-      output.read.chomp.should == "hello carl"
+      output.read.should == "hello carl\nhello andy\n"
     end  
     
     it "should set reducers to 0 if none is provided" do

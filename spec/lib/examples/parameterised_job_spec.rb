@@ -1,8 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 ENV['MANDY_PATH'] = File.join(File.dirname(__FILE__), *%w[.. .. .. lib mandy.rb])
 
+ENV["prefix"] = 'Test'
 
-Mandy.job "Parameterised job" do
+Mandy.job "#{Mandy.parameter(:prefix)} Parameterised job" do
   map do |key, value|
     emit(key, parameter(:argument))
   end
@@ -10,11 +11,12 @@ end
 
 describe "Parameterised example" do
   before(:all) do
-    @runner = Mandy::TestRunner.new("Parameterised job", :parameters => {:argument => "hello world"})
+    ENV["json"] = nil
+    @runner = Mandy::TestRunner.new("Test Parameterised job", :parameters => {:argument => "hello world"})
   end
   
   after(:all) do
-    Mandy::Job.jobs.delete_if { |job| job.name == "Parameterised job"}
+    Mandy::Job.jobs.delete_if { |job| job.name == "Test Parameterised job"}
   end
   
   describe "Mapper" do

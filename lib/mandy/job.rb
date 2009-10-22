@@ -1,5 +1,7 @@
 module Mandy
   class Job
+    JSON_PAYLOAD_KEY = "json"
+    
     class << self
       def jobs
         @jobs ||= []
@@ -7,6 +9,22 @@ module Mandy
       
       def find_by_name(name)
         jobs.find {|job| job.name == name }
+      end
+      
+      def parameter(name)
+        return find_json_param(name) if json_provided?
+        ENV[name.to_s]
+      end
+
+      private
+
+      def find_json_param(name)
+        json_args = JSON.parse(CGI.unescape(ENV[JSON_PAYLOAD_KEY]))
+        json_args[name.to_s]
+      end
+
+      def json_provided?
+        !ENV[JSON_PAYLOAD_KEY].nil?
       end
     end
     

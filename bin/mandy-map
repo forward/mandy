@@ -11,9 +11,11 @@ def absolute_path(path)
   path =~ /^\// ? path : File.join(Dir.pwd, path)
 end
 
-file   = absolute_path(ARGV[0])
+file = absolute_path(ARGV[0])
 job_name = ARGV[1]
 
 require file
+
+STDOUT.sync = true
 
 Mandy::Job.find_by_name(job_name).run_map

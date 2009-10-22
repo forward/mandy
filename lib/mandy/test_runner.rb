@@ -3,7 +3,7 @@ module Mandy
     attr_reader :job
     
     def initialize(job=Mandy::Job.jobs.first.name, opts={})
-      ENV[Mandy::Task::JSON_PAYLOAD_KEY] = opts[:parameters].to_json
+      ENV[Mandy::Job::JSON_PAYLOAD_KEY] = opts[:parameters].to_json
       @job = Mandy::Job.find_by_name(job)
     end
     

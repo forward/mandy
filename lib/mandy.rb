@@ -2,6 +2,7 @@ require "rubygems"
 require "json"
 require "uri"
 require "cgi"
+require "fileutils"
 
 %w(
   support/formatting
@@ -45,6 +46,11 @@ module Mandy
     job
   end
   module_function :job
+  
+  def parameter(name)
+    Mandy::Job.parameter(name)
+  end
+  module_function :parameter
 end
 
 Mandy.autorun = true
@@ -71,9 +77,15 @@ at_exit do
     out = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
     puts "Running #{job.name}..."
     reduce_phase = job.reducer_defined? ? %(| sort | mandy-reduce #{file} "#{job.name}") : ''
-    `cat #{input} | mandy-map #{file} "#{job.name}" #{reduce_phase} > #{out}`
+    command = %(cat #{input} | mandy-map #{file} "#{job.name}" #{reduce_phase})
+    if Mandy::Job.jobs.last==job
+       IO.popen(command) do |stdout|
+         stdout.each_line { |out| STDOUT << out }
+       end
+    else
+      `#{command} > #{out}`
+    end
     input = out
   end
-
-  puts File.read(out)
+  FileUtils.rm_rf(output_folder)
 end
