@@ -92,7 +92,7 @@ begin
     raise(Mandy::HadoopJobFailure.new(job, result)) unless $?.to_i==0
 
     # puts "#{command}"
-    input = output
+    input = "-input #{output}"
   end
   # print out the output location so caller can know where to get the results from
   puts output
