@@ -5,6 +5,7 @@ require 'optparse'
 require 'ostruct'
 require 'cgi'
 
+errors = false
 options = OpenStruct.new
 
 OptionParser.new do |opts|
@@ -53,24 +54,26 @@ inputs  = ARGV[1].split(",")
 input = inputs.map {|path| "-input \"#{path}\""}.join(" ")
 
 output_folder = ARGV[2]
-config = options.config || 'cluster.xml'
-puts "Packaging Gems for distribution..."
+config = absolute_path(options.config || 'cluster.xml')
+puts "Packaging code for distribution..."
 payload = Mandy::Packer.pack(file, options.payload || ARGV[0], gemfile(options.gemfile))
 cmdenv = options.cmdenv
 
 at_exit do
+  puts
   puts "Cleaning up..."
   Mandy::Packer.cleanup!(payload)
-  puts "All done!"
+  puts errors ? "Completed with errors!" : "Completed Successfully!"
 end
 
 puts "Loading Mandy scripts..."
 require absolute_path(file)
 
 output = nil
+puts
 begin
   Mandy::Job.jobs.each_with_index do |job, i|
-    puts "Running Job [#{i+1}] #{job.name}..."
+    puts "Submitting Job: [#{i+1}] #{job.name}..."
     
     jobconf = job.settings.map { |key, value| %(-D #{key}='#{value}') }.join(' ')
     output = File.join(output_folder, "#{i+1}-#{job.name.downcase.gsub(/\W/, '-')}")
@@ -88,15 +91,28 @@ begin
                     #{ cmdenv.nil? ? '' : "-cmdenv #{cmdenv}" }\
                     -output "#{output}" 2>&1)
 
-    result = `#{command}`
-    raise(Mandy::HadoopJobFailure.new(job, result)) unless $?.to_i==0
-
+    result = []
+    IO.popen(command, 'r') do |subprocess|
+      while line = subprocess.gets
+        if line.include?('Running job:')
+          job_id = line.split(' ').last.strip
+          puts "Job ID: #{job_id}"
+          puts "Kill Command: mandy-kill #{job_id} -c #{config}"         
+        end
+        puts "Tracking URL: #{line.split(' ').last.strip}" if line.include?('Tracking URL:')
+        result << line
+      end
+    end
+    
+    raise(Mandy::HadoopJobFailure.new(job, result.join("\n"))) unless $?.to_i==0
+    puts
     # puts "#{command}"
     input = "-input #{output}"
   end
   # print out the output location so caller can know where to get the results from
   puts output
 rescue Mandy::HadoopJobFailure => e
+  errors = true
   STDERR.puts e.to_s
   exit(1)
 end

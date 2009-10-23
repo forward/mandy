@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
 
   s.executables = %w[
     mandy
+    mandy-kill
     mandy-hadoop
     mandy-local
     mandy-map
@@ -37,6 +38,7 @@ Gem::Specification.new do |s|
     bin/mandy
     bin/mandy-hadoop
     bin/mandy-local
+    bin/mandy-kill
     bin/mandy-map
     bin/mandy-put
     bin/mandy-get
