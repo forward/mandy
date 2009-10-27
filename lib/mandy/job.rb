@@ -12,8 +12,8 @@ module Mandy
       end
       
       def parameter(name)
-        return find_json_param(name) if json_provided?
-        ENV[name.to_s]
+        param = find_json_param(name) if json_provided?
+        param || ENV[name.to_s]
       end
 
       private

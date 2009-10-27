@@ -48,6 +48,13 @@ def gemfile(file)
   File.exist?(path) ? path : nil
 end
 
+def set_env(opts_string)
+  opts_string.split(' ').each do |pair|
+    key, value = pair.split("=")
+    ENV[key] = value
+  end
+end
+
 file   = ARGV[0]
 filename = File.basename(file)
 inputs  = ARGV[1].split(",")
@@ -56,8 +63,9 @@ input = inputs.map {|path| "-input \"#{path}\""}.join(" ")
 output_folder = ARGV[2]
 config = absolute_path(options.config || 'cluster.xml')
 puts "Packaging code for distribution..."
-payload = Mandy::Packer.pack(file, options.payload || ARGV[0], gemfile(options.gemfile))
+payload = Mandy::Packer.pack(file, options.payload || ARGV[0], gemfile(options.gemfile))  
 cmdenv = options.cmdenv
+set_env(cmdenv)
 
 at_exit do
   puts

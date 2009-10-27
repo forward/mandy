@@ -5,14 +5,15 @@ ENV["prefix"] = 'Test'
 
 Mandy.job "#{Mandy.parameter(:prefix)} Parameterised job" do
   map do |key, value|
-    emit(key, parameter(:argument))
+    emit(key, "#{parameter(:argument)} #{parameter(:name)}")
   end
 end
 
 describe "Parameterised example" do
   before(:all) do
     ENV["json"] = nil
-    @runner = Mandy::TestRunner.new("Test Parameterised job", :parameters => {:argument => "hello world"})
+    ENV['name'] = 'Andy'
+    @runner = Mandy::TestRunner.new("Test Parameterised job", :parameters => {:argument => "hello"})
   end
   
   after(:all) do
@@ -22,7 +23,7 @@ describe "Parameterised example" do
   describe "Mapper" do
     it "should emit parameter as value" do
       @runner.map("key\tvalue") do |mapper|
-        mapper.should_receive(:emit).with("key", "hello world")
+        mapper.should_receive(:emit).with("key", "hello Andy")
       end
     end
   end
