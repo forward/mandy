@@ -49,6 +49,7 @@ def gemfile(file)
 end
 
 def set_env(opts_string)
+  return if opts_string.nil?
   opts_string.split(' ').each do |pair|
     key, value = pair.split("=")
     ENV[key] = value
