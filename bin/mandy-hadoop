@@ -108,7 +108,6 @@ begin
                     -output "#{output}" 2>&1)
                     
     result = []
-    puts "#{command}"
     IO.popen(command, 'r') do |subprocess|
       while line = subprocess.gets
         if line.include?('Running job:')
