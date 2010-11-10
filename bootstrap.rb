@@ -5,7 +5,7 @@ module Mandy
     def self.unpack(file)
       return false unless File.extname(file) == '.tar'
       `tar -xf #{file}`
-      `geminstaller --sudo --silent --exceptions`
+      # `geminstaller --sudo --silent --exceptions`
     end
   end
 end
