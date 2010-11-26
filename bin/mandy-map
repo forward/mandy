@@ -2,6 +2,8 @@
 require "rubygems"
 require "mandy"
 
+HadoopConfiguration.check_home_and_version
+
 if ARGV.size==0
   puts "USAGE: mandy-map my_script.rb 'Job Name'"
   exit

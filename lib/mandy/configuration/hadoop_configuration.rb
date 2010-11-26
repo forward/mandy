@@ -6,6 +6,7 @@ module HadoopConfiguration
       puts "Try setting 'export HADOOP_HOME=/my/hadoop/path' in your ~/.profile maybe?"
       exit(1)
     end
+    hadoop_home
   end
   
   def check_version
@@ -18,5 +19,10 @@ module HadoopConfiguration
       exit(1)
     end
     hadoop_version
+  end
+  
+  def check_home_and_version
+    check_home
+    check_version
   end
 end

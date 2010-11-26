@@ -3,6 +3,11 @@ require 'optparse'
 require 'ostruct'
 require 'cgi'
 
+require "rubygems"
+require "mandy"
+
+HadoopConfiguration.check_home_and_version
+
 options = OpenStruct.new
 
 OptionParser.new do |opts|

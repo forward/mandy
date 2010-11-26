@@ -2,6 +2,12 @@
 require 'optparse'
 require 'ostruct'
 
+require "rubygems"
+require "mandy"
+
+HadoopConfiguration.check_home_and_version
+
+
 exec('mandy-cat -h') unless ARGV.size >= 2
 
 options = OpenStruct.new

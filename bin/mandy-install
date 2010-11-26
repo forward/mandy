@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 
+require "rubygems"
+require "mandy"
+
+HadoopConfiguration.check_home_and_version
+
 if ARGV.size==0
   puts "USAGE: mandy-install user@server1.com [user@server2.com ...]"
   exit

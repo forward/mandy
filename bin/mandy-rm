@@ -2,6 +2,11 @@
 require 'optparse'
 require 'ostruct'
 
+require "rubygems"
+require "mandy"
+
+HadoopConfiguration.check_home_and_version
+
 exec('mandy-rm -h') unless ARGV.size >= 1
 
 

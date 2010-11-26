@@ -2,9 +2,7 @@
 require "rubygems"
 require "mandy"
 
-# Hadoop Home Detection
 hadoop_home = HadoopConfiguration.check_home
-# Hadoop Version Detection
 hadoop_version = HadoopConfiguration.check_version
 
 # Status & Help Message

@@ -5,6 +5,11 @@ require 'optparse'
 require 'ostruct'
 require 'cgi'
 
+require "rubygems"
+require "mandy"
+
+HadoopConfiguration.check_home_and_version
+
 errors = false
 options = OpenStruct.new
 
