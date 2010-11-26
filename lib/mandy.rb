@@ -10,6 +10,7 @@ require "fileutils"
   dsl 
   job 
   packer
+  configuration/hadoop_configuration
   support/tuple 
   support/array_serializer 
   support/hdfs_location 
@@ -29,6 +30,8 @@ require "fileutils"
   ruby-hbase
   errors
 ).each {|file| require File.join(File.dirname(__FILE__), 'mandy', file) }
+
+include HadoopConfiguration
 
 module Mandy
   class << self

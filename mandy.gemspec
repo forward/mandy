@@ -57,6 +57,7 @@ Gem::Specification.new do |s|
     geminstaller.yml
     lib/mandy.rb
     lib/mandy/errors.rb
+    lib/mandy/configuration/hadoop_configuration.rb
     lib/mandy/support/tuple.rb
     lib/mandy/support/formatting.rb
     lib/mandy/support/array_serializer.rb
