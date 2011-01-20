@@ -18,7 +18,11 @@ OptionParser.new do |opts|
   opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
     options.config = config
   end
-  
+
+  opts.on("-f", "--force", "Use this paramter to force deletion of a relative folder, root folder or 1st level folder (like /home or /tmp)") do
+    options.force = true
+  end
+
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -27,5 +31,15 @@ end.parse!
 
 file = ARGV[0]
 config = options.config || 'cluster.xml'
+
+if !options.force and file =~ /^[^\/]/
+  puts "mandy-rm: Cowardly refusing to delete a relative folder. Use -f parameter to force command."
+  exit
+end
+
+if !options.force and File.expand_path(file).split("/").size <= 2
+  puts "mandy-rm: Cowardly refusing to delete a root or 1st level folder. Use -f parameter to force command."
+  exit
+end
 
 `$HADOOP_HOME/bin/hadoop fs -conf #{config} -rmr #{file}`
