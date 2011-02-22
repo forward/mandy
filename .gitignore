@@ -1,3 +1,5 @@
 .DS_Store
 pkg/
 examples/output
+examples/custom_output_format/build
+examples/custom_output_format/dist
