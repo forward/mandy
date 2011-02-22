@@ -86,7 +86,7 @@ cmdenv = options.cmdenv
 set_env(cmdenv)
 
 inputformat = !options.input_format.nil? ? options.input_format : "TextInputFormat"
-outputformat = !options.output_format.nil? ? options.output_format : "TextOutputFormat"
+outputformat = !options.output_format.nil? ? options.output_format : "org.apache.hadoop.mapred.TextOutputFormat"
 
 at_exit do
   puts
@@ -109,7 +109,7 @@ begin
   
     bootstrap_file = File.expand_path(File.join(File.dirname(__FILE__), '..', 'bootstrap.rb'))
     inputreader = job.input_format == :xml ? "StreamXmlRecordReader,begin=<#{job.input_format_options[:xml_tag]} ,end=</#{job.input_format_options[:xml_tag]}>" : nil
-  
+    
     command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop*streaming*.jar \
                     #{options.libjars.nil? ? '' : "-libjars \"#{options.libjars}\""} \
                     #{jobconf}\
@@ -123,7 +123,7 @@ begin
                     -reducer "ruby bootstrap.rb #{File.basename(payload)} reduce #{filename} '#{job.name}'"  \
                     #{ cmdenv.nil? ? '' : "-cmdenv #{cmdenv}" }\
                     -output "#{output}" 2>&1)
-                   
+    
     result = []
     IO.popen(command, 'r') do |subprocess|
       while line = subprocess.gets
