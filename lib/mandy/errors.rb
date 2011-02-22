@@ -17,13 +17,13 @@ module Mandy
     end
     
     def hadoop_error
-      @output.split("\n").find {|line| line =~ /ERROR/ }
+      @output
     end
     
     def to_s
       output = []
-      output << %(Hadoop ERROR: #{hadoop_error || 'Unkown Error'})
       output << %(Mandy Job Name: #{job_name})
+      output << %(Hadoop ERROR: #{hadoop_error})    
       output << %(Tracking URL: #{tracking_url}) if tracking_url
       output*"\n"
     end
