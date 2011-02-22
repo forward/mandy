@@ -21,7 +21,9 @@ puts '------------------------'
   'mandy-rm' => 'remove a file or directory from HDFS',
   'mandy-put' => 'upload a file into HDFS',
   'mandy-map' => 'Run a map task reading on STDIN and writing to STDOUT',
-  'mandy-reduce' => 'Run a reduce task reading on STDIN and writing to STDOUT'
+  'mandy-reduce' => 'Run a reduce task reading on STDIN and writing to STDOUT',
+  'mandy-lsr' => 'Recursively list files or directorys on HDFS'
+  
 }.each do |command, description|
 
   puts "#{command.ljust(15)} #{description}"

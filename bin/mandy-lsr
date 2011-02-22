@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'ostruct'
+
+require "rubygems"
+require "mandy"
+
+
+HadoopConfiguration.check_home_and_version
+
+exec('mandy-lsr -h') unless ARGV.size == 1
+
+options = OpenStruct.new
+
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-lsr file_or_directory"
+
+  opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
+    options.config = config
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+file = ARGV[0]
+config = options.config || 'cluster.xml'
+
+
+list = system("$HADOOP_HOME/bin/hadoop fs -conf #{config} -lsr #{file}")
+puts list
