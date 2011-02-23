@@ -7,12 +7,26 @@ require "mandy"
 
 HadoopConfiguration.check_home_and_version
 
+exec('mandy-hdfs -h') if ARGV.size == 0
+
 options = OpenStruct.new
 
-throw ARGV
+OptionParser.new do |opts|
+  opts.banner = "USAGE: mandy-hdfs <command> [args]"
+
+  opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
+    options.config = config
+  end
+  
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
 
 command = ARGV.shift
 args = ARGV.join(' ')
 config = options.config || 'cluster.xml'
 
-`$HADOOP_HOME/bin/hadoop fs -conf #{config} -#{command} #{args}`
+result = system("$HADOOP_HOME/bin/hadoop fs -conf #{config} -#{command} #{args}")
+puts result
