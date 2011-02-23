@@ -8,7 +8,7 @@ require "mandy"
 
 HadoopConfiguration.check_home_and_version
 
-exec('mandy-lsr -h') unless ARGV.size == 1
+exec('mandy-lsr -h') if ARGV.size == 0
 
 options = OpenStruct.new
 
