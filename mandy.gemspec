@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
     mandy
     mandy-kill
     mandy-hadoop
+    mandy-hdfs
     mandy-local
     mandy-map
     mandy-put
