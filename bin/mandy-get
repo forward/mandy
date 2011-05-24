@@ -34,7 +34,7 @@ local_file = ARGV[1]
 config = absolute_path(options.config || 'cluster.xml')
 
 def file?(permissions)
-  permissions.chars.first.downcase != 'd'
+  permissions[0,1].downcase != 'd'
 end
 
 def is_a_valid(path)
