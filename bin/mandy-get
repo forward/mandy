@@ -33,4 +33,24 @@ remote_file = ARGV[0]
 local_file = ARGV[1]
 config = absolute_path(options.config || 'cluster.xml')
 
-`$HADOOP_HOME/bin/hadoop fs -conf #{config} -getmerge #{remote_file} #{local_file}`
+def file?(permissions)
+  permissions.chr.downcase != 'd'
+end
+
+def is_a_valid(path)
+  path =~ /\/(\S+)/
+end
+
+File.open("#{local_file}", "a") do |target|
+  IO.popen("$HADOOP_HOME/bin/hadoop fs -conf #{config} -ls #{remote_file}").each_line do |line|
+    permissions,replication,user,group,size,mod_date,mod_time,path = *line.split(/\s+/)
+    next unless is_a_valid(path)
+    if file?(permissions)
+      IO.popen("$HADOOP_HOME/bin/hadoop fs -conf #{config} -text #{path}") do |b|
+        while data = b.read(1024*50)
+          target.puts(data)
+        end
+      end
+    end
+  end
+end
