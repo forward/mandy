@@ -15,15 +15,22 @@ puts "Available Mandy Commands"
 puts '------------------------'
 
 {
-  'mandy-install' => 'Installs the Mandy Rubygem on several hosts via ssh.',
-  'mandy-local' => 'Run a Map/Reduce task locally without requiring hadoop',
+  'mandy-cat' => 'Concatenate and print files from HDFS',
+  'mandy-cp' => 'Copy file from HDFS',
+  'mandy-exists' => 'Check to see if a file exists in HDFS',
+  'mandy-get' => 'Copy and merge files to the local file system. The allowed formats are zip and TextRecordInputStream',
   'mandy-hadoop' => 'Run a Map/Reduce task on hadoop using the provided cluster config',
-  'mandy-rm' => 'remove a file or directory from HDFS',
-  'mandy-put' => 'upload a file into HDFS',
+  'mandy-hdfs' => 'Execute generic Hadoop FS command on HDFS',
+  'mandy-install' => 'Installs the Mandy Rubygem on several hosts via ssh.',
+  'mandy-kill' => 'Kill a specific Hadoop job',
+  'mandy-local' => 'Run a Map/Reduce task locally without requiring hadoop',
+  'mandy-lsr' => 'Recursively list files or directorys on HDFS',
   'mandy-map' => 'Run a map task reading on STDIN and writing to STDOUT',
+  'mandy-mkdir' => 'Takes path uri\'s as argument and creates directories',
+  'mandy-mv' => 'Moves files from source to destination in HDFS',
+  'mandy-put' => 'Upload a file into HDFS',
   'mandy-reduce' => 'Run a reduce task reading on STDIN and writing to STDOUT',
-  'mandy-lsr' => 'Recursively list files or directorys on HDFS'
-  
+  'mandy-rm' => 'Remove a file or directory from HDFS'
 }.each do |command, description|
 
   puts "#{command.ljust(15)} #{description}"
