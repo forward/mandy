@@ -4,6 +4,7 @@ require 'ostruct'
 
 require "rubygems"
 require "mandy"
+require 'fileutils'
 
 HadoopConfiguration.check_home_and_version
 
@@ -40,7 +41,7 @@ end
 def is_a_valid(path)
   path =~ /\/(\S+)/
 end
-
+FileUtils.mkdir_p(File.split(local_file)[0])
 File.open("#{local_file}", "a") do |target|
   IO.popen("$HADOOP_HOME/bin/hadoop fs -conf #{config} -ls #{remote_file}").each_line do |line|
     permissions,replication,user,group,size,mod_date,mod_time,path = *line.split(/\s+/)
