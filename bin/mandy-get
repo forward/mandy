@@ -51,7 +51,7 @@ def is_a_valid(path)
 end
 
 if options.raw
-  puts "$HADOOP_HOME/bin/hadoop fs -conf #{config} -get#{options.merge ? 'merge' : ''} #{remote_file} #{local_file}"
+  `$HADOOP_HOME/bin/hadoop fs -conf #{config} -get#{options.merge ? 'merge' : ''} #{remote_file} #{local_file}`
   exit($?.exitstatus)
 end
 
