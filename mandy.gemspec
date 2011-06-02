@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
 
   s.name = 'mandy'
   s.version = File.read(File.join(File.dirname(__FILE__),'VERSION'))
-  s.date = "#{Time.now.strftime('%Y-%m-%e')}"
+  s.date = "#{Time.now.strftime('%Y-%m-%d')}"
 
   s.description = "Mandy is Ruby Map/Reduce Framework built onto of the Hadoop Distributed computing platform."
   s.summary     = "Map/Reduce Framework"
