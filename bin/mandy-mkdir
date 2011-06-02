@@ -29,3 +29,4 @@ dir = ARGV[0]
 config = options.config || 'cluster.xml'
 
 `$HADOOP_HOME/bin/hadoop fs -conf #{config} -mkdir #{dir}`
+exit($?.exitstatus)

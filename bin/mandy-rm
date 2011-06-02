@@ -43,3 +43,4 @@ if !options.force and File.expand_path(file).split("/").size <= 2
 end
 
 `$HADOOP_HOME/bin/hadoop fs -conf #{config} -rmr #{file}`
+exit($?.exitstatus)

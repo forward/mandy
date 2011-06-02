@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.homepage = "http://github.com/trafficbroker/mandy"
+  s.homepage = "http://github.com/forward/mandy"
 
   s.name = 'mandy'
   s.version = File.read(File.join(File.dirname(__FILE__),'VERSION'))

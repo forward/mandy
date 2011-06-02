@@ -18,7 +18,7 @@ puts '------------------------'
   'mandy-cat' => 'Concatenate and print files from HDFS',
   'mandy-cp' => 'Copy file from HDFS',
   'mandy-exists' => 'Check to see if a file exists in HDFS',
-  'mandy-get' => 'Copy and merge files to the local file system. The allowed formats are zip and TextRecordInputStream',
+  'mandy-get' => 'Copy and merge files to the local file system. The allowed formats are zip and TextRecordInputStream, use --raw for others',
   'mandy-hadoop' => 'Run a Map/Reduce task on hadoop using the provided cluster config',
   'mandy-hdfs' => 'Execute generic Hadoop FS command on HDFS',
   'mandy-install' => 'Installs the Mandy Rubygem on several hosts via ssh.',

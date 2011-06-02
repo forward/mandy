@@ -10,13 +10,21 @@ HadoopConfiguration.check_home_and_version
 
 exec('mandy-get -h') unless ARGV.size >= 2
 
-options = OpenStruct.new
+options = OpenStruct.new(:raw => false, :merge => false)
 
 OptionParser.new do |opts|
   opts.banner = "USAGE: mandy-get hdfs_file_location local_file_destination [options]"
 
   opts.on("-c", "--conf HADOOP_CONF", "Use this cluster xml config file.") do |config|
     options.config = config
+  end
+  
+  opts.on('-r', "--raw", "Get the raw file without decompression.") do |config|
+    options.raw = true
+  end
+  
+  opts.on('-m', "--merge", "Get a whole folder and merge results.") do |config|
+    options.merge = true
   end
   
   opts.on_tail("-h", "--help", "Show this message") do
@@ -41,6 +49,12 @@ end
 def is_a_valid(path)
   path =~ /\/(\S+)/
 end
+
+if options.raw
+  puts "$HADOOP_HOME/bin/hadoop fs -conf #{config} -get#{options.merge ? 'merge' : ''} #{remote_file} #{local_file}"
+  exit($?.exitstatus)
+end
+
 FileUtils.mkdir_p(File.split(local_file)[0])
 File.open("#{local_file}", "a") do |target|
   IO.popen("$HADOOP_HOME/bin/hadoop fs -conf #{config} -ls #{remote_file}").each_line do |line|

@@ -30,3 +30,4 @@ destination = ARGV[1]
 config = options.config || 'cluster.xml'
 
 `$HADOOP_HOME/bin/hadoop fs -conf #{config} -cp #{source} #{destination}`
+exit($?.exitstatus)
