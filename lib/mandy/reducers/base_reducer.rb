@@ -17,7 +17,7 @@ module Mandy
         setup if self.respond_to?(:setup)
         last_key, values = nil, []
         @input.each_line do |line|
-           key, value = line.split(KEY_VALUE_SEPERATOR)
+           key, value = line.split(KEY_VALUE_SEPERATOR, 2)
            value.chomp!
            last_key = key if last_key.nil?
            if key != last_key
