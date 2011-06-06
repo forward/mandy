@@ -63,7 +63,7 @@ File.open("#{local_file}", "a") do |target|
     if file?(permissions)
       IO.popen("$HADOOP_HOME/bin/hadoop fs -conf #{config} -text #{path}") do |b|
         while data = b.read(1024*50)
-          target.puts(data)
+          target.write(data)
         end
       end
     end
