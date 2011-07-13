@@ -23,7 +23,7 @@ module Mandy
     
     def self.cleanup!(file)
       return false unless File.extname(file) == '.tar'
-      `rm #{file}`
+      FileUtils.rm_r(File.dirname(file))
     end
   end
 end
