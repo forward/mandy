@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
     mandy-exists
     mandy-install
     mandy-lsr
+    mandy-ls
   ]
 
   # = MANIFEST =
@@ -54,6 +55,7 @@ Gem::Specification.new do |s|
     bin/mandy-exists
     bin/mandy-install
     bin/mandy-lsr
+    bin/mandy-ls
     VERSION
     readme.md
     Rakefile
