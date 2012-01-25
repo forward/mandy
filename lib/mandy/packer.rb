@@ -23,7 +23,7 @@ module Mandy
     
     def self.cleanup!(file)
       return false unless File.extname(file) == '.tar'
-      FileUtils.rm_r(File.dirname(file))
+      FileUtils.rm_r(File.dirname(file)) if File.exists?(File.dirname(file))
     end
   end
 end
