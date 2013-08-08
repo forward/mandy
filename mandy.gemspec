@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
     mandy-mv
     mandy-cp
     mandy-mkdir
+    mandy-mkdirp
     mandy-exists
     mandy-install
     mandy-lsr
@@ -52,6 +53,7 @@ Gem::Specification.new do |s|
     bin/mandy-mv
     bin/mandy-cp
     bin/mandy-mkdir
+    bin/mandy-mkdirp
     bin/mandy-exists
     bin/mandy-install
     bin/mandy-lsr
