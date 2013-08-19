@@ -110,7 +110,7 @@ begin
     bootstrap_file = File.expand_path(File.join(File.dirname(__FILE__), '..', 'bootstrap.rb'))
     inputreader = job.input_format == :xml ? "StreamXmlRecordReader,begin=<#{job.input_format_options[:xml_tag]} ,end=</#{job.input_format_options[:xml_tag]}>" : nil
     
-    command = %($HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/contrib/streaming/hadoop*streaming*.jar \
+    command = %($HADOOP_HOME/bin/hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop*streaming*.jar \
                     #{options.libjars.nil? ? '' : "-libjars \"#{options.libjars}\""} \
                     #{jobconf}\
                     -files "#{payload}","#{bootstrap_file}" \
