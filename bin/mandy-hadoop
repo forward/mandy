@@ -113,7 +113,8 @@ begin
     command = %($HADOOP_HOME/bin/hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop*streaming*.jar \
                     #{options.libjars.nil? ? '' : "-libjars \"#{options.libjars}\""} \
                     #{jobconf}\
-                    -files "#{payload}","#{bootstrap_file}" \
+                    -file "#{payload}" \
+                    -file "#{bootstrap_file}" \
                     -conf '#{config}' \
                     -inputformat '#{inputformat}' \
                     -outputformat '#{outputformat}' \
