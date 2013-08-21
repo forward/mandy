@@ -113,8 +113,6 @@ begin
     command = %($HADOOP_HOME/bin/hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop*streaming*.jar \
                     #{options.libjars.nil? ? '' : "-libjars \"#{options.libjars}\""} \
                     #{jobconf}\
-                    -file "#{payload}" \
-                    -file "#{bootstrap_file}" \
                     -conf '#{config}' \
                     -inputformat '#{inputformat}' \
                     -outputformat '#{outputformat}' \
@@ -123,7 +121,9 @@ begin
                     -mapper "ruby bootstrap.rb #{File.basename(payload)} map #{filename} '#{job.name}'"  \
                     -reducer "ruby bootstrap.rb #{File.basename(payload)} reduce #{filename} '#{job.name}'"  \
                     #{ cmdenv.nil? ? '' : "-cmdenv #{cmdenv}" }\
-                    -output "#{output}" 2>&1)
+                    -output "#{output}" \
+                    -file "#{payload}" \
+                    -file "#{bootstrap_file}" 2>&1)
     
     result = []
     IO.popen(command, 'r') do |subprocess|
